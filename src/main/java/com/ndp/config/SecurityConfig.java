@@ -25,17 +25,6 @@ import java.util.Arrays;
 @RequiredArgsConstructor
 public class SecurityConfig {
 
-   /* @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
-                .csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(auth -> auth
-                        .anyRequest().permitAll()
-                );
-
-        return http.build();
-    }*/
-
     private final JwtService jwtService;
     private final UrlWhitelistConfig urlWhitelistConfig;
     private final AuthEntryPointConfig authEntryPoint;
