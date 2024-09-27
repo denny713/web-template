@@ -1,0 +1,62 @@
+spring:
+  application:
+    name: web-template
+  datasource:
+    url: jdbc:postgresql://localhost:5432/template-web
+    username: postgres
+    password: admin
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: none
+  liquibase:
+    enabled: false
+    change-log: classpath:db/db.changelog.yml
+  mvc:
+    servlet:
+      path: /
+    pathmatch:
+      matching-strategy: ant_path_matcher
+  servlet:
+    multipart:
+      max-file-size: 128KB
+      max-request-size: 128KB
+  thymeleaf:
+    cache: false
+    prefix: classpath:/templates/
+    suffix: .html
+    mode: HTML5
+    encoding: UTF-8
+server:
+  port: 7070
+  servlet:
+    context-path: /
+logging:
+  level:
+    org.springframework: DEBUG
+    org.thymeleaf: DEBUG
+  pattern:
+    console: "%d{dd-MM-yyyy HH:mm:ss.SSS} %thread ${PID} [%X{correlationId}] %-5level %logger{36} - %class{1} - %msg%n"
+jwt:
+  kid: 9a9f05d4-5ba8-47d4-a400-e838ab0b4306
+  secret-key: H5QLLJBD71MQYDF4UK096AAILETHJ2H9ZKHPQCBYKS63MYFYVRE2YMF6XESA42TS
+  access-exp: 86400000
+  refresh-exp: 604800000
+app:
+  default-password: ndp#123
+  base-url: http://localhost:7070
+url-whitelist:
+  urls:
+    - /api/auth/login
+    - /v2/api-docs
+    - /configuration/
+    - /swagger-resources/**
+    - /configuration/security
+    - /swagger-ui.html
+    - /webjars/**
+    - /swagger-ui/**
+    - /v3/api-docs/**
+    - /error
+    - /login
+    - /assets/**

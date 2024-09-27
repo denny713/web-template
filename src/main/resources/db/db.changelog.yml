@@ -1,0 +1,13 @@
+databaseChangeLog:
+  - include:
+      file: changelog/create_users_table.yml
+      relativeToChangelogFile: true
+  - include:
+      file: changelog/create_roles_table.yml
+      relativeToChangelogFile: true
+  - include:
+      file: changelog/create_menus_table.yml
+      relativeToChangelogFile: true
+  - include:
+      file: changelog/create_role_mapping_table.yml
+      relativeToChangelogFile: true

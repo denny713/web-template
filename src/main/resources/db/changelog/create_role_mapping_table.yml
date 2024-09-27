@@ -1,0 +1,34 @@
+databaseChangeLog:
+  - changeSet:
+      id: create_role_mapping_table
+      author: denny.afrizal713@gmail.com
+      changes:
+        - createTable:
+            tableName: role_mapping
+            columns:
+              - column:
+                  name: id
+                  type: UUID
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: role_id
+                  type: UUID
+                  constraints:
+                    nullable: false
+              - column:
+                  name: menu_id
+                  type: UUID
+                  constraints:
+                    nullable: false
+              - column:
+                  name: read_access
+                  type: BOOLEAN
+                  constraints:
+                    nullable: false
+              - column:
+                  name: write_access
+                  type: BOOLEAN
+                  constraints:
+                    nullable: false
