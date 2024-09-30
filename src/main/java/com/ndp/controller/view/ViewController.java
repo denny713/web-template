@@ -1,5 +1,9 @@
 package com.ndp.controller.view;
 
+import com.ndp.util.TokenUtil;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -9,12 +13,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class ViewController {
 
     @GetMapping("/login")
-    public String loginPage() {
-        return "login";
+    public String loginPage(HttpServletRequest request) {
+        return StringUtils.isEmpty(TokenUtil.getTokenFromCookie(request)) ? "login" : "redirect:/dashboard";
     }
 
     @GetMapping({"/", "/dashboard"})
-    public String dashboard() {
-        return "dashboard";
+    public String dashboard(HttpServletRequest request) {
+        return request.getServletPath().equals("/") ? "redirect:/dashboard" : "dashboard";
     }
 }
