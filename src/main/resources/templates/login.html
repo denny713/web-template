@@ -8,21 +8,24 @@
 </head>
 <body>
 <div layout:fragment="content">
-    <div class="container">
-        <div class="form-box">
+    <div class="login-container">
+        <div class="login-box">
             <h1>Login</h1>
-            <p>Please enter your username and your password</p>
             <form>
-                <div class="input-group">
-                    <span class="input-icon"><i class="fa fa-user"></i></span>
-                    <input class="sign-text" id="username" name="username" type="text" placeholder="Username"/>
+                <div class="mb-3">
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="fas fa-user"></i></span>
+                        <input type="text" class="form-control" id="username" name="username" placeholder="Username">
+                    </div>
                 </div>
-                <div class="input-group">
-                    <span class="input-icon"><i class="fa fa-lock"></i></span>
-                    <input class="sign-text" id="password" name="password" type="password" placeholder="Password"/>
-                    <a href="#" class="forgot-password">Forgot password?</a>
+                <div class="mb-3">
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                        <input type="password" class="form-control" id="password" name="password"
+                               placeholder="Password">
+                    </div>
                 </div>
-                <button class="login-button" type="button" onclick="doLogin()">Login</button>
+                <button type="button" onclick="doLogin()" class="btn btn-login w-100">Login</button>
             </form>
         </div>
     </div>

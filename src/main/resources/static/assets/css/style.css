@@ -59,77 +59,80 @@ p {
     margin: 0;
 }
 
-.container {
-    width: 100%;
-    max-width: 800px;
-    padding: 30px;
-}
-
-.form-box {
-    background-color: rgba(255, 255, 255, 0.2);
-    padding: 60px;
-    border-radius: 10px;
-    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
-    text-align: center;
-}
-
 h2 {
     color: #f6f1f1;
     margin-bottom: 20px;
 }
 
-.input-group {
-    position: relative;
+section {
+    flex: 1;
 }
 
-.input-icon {
-    position: absolute;
-    top: 50%;
-    left: 10px;
-    transform: translateY(-50%);
+footer {
+    padding: 1rem;
+    text-align: center;
 }
 
-.input-group input {
-    padding-left: 35px;
+.login-container {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-.sign-text {
+.login-box {
+    background-color: white;
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
     width: 100%;
-    padding: 12px;
-    margin-bottom: 15px;
-    border: 1px solid #ddd;
-    border-radius: 16px;
-    box-sizing: border-box;
 }
 
-.sign-text:focus {
-    outline: none;
-    border-color: #2040b0;
-    border-radius: 16px;
+.login-box h1 {
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    text-align: center;
 }
 
-.login-button {
+.form-control {
+    border-radius: 0 30px 30px 0; /* Melengkung di kanan */
+    padding: 10px 20px;
+    font-size: 14px;
+}
+
+.input-group-text {
+    border-radius: 30px 0 0 30px; /* Melengkung di kiri */
     background-color: transparent;
-    color: #4caf50;
-    padding: 12px 20px;
-    border: 1px solid #4caf50;
-    border-radius: 16px;
-    cursor: pointer;
-    width: 100%;
-    margin-bottom: 10px;
+    border: 1px solid #ced4da;
+    color: #666;
 }
 
-.login-button:hover {
-    background-color: #f7f7f7;
-    color: #3e8e41;
-    border-color: #3e8e41;
+.btn-login {
+    border-radius: 30px;
+    padding: 10px 20px;
+    font-weight: 500;
+    background-color: #2040b0;
+    color: white;
 }
 
-a {
+.btn-login:hover {
+    background-color: #16397a;
+}
+
+.forgot-password {
+    font-size: 14px;
     color: #2040b0;
-    text-decoration: none;
+    text-align: right;
+    display: block;
+    margin-top: 10px;
 }
 
-a:hover {
+.forgot-password:hover {
     text-decoration: underline;
+}
+
+.input-group-text i {
+    font-size: 18px;
 }
