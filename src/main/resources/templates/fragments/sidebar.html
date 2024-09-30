@@ -1,12 +1,23 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-</head>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org">
 <body>
-<aside>
+<div class="sidebar" layout:fragment="sidebar">
+    <h2>Master Data</h2>
     <ul>
-        <li><a href="/dashboard">Dashboard</a></li>
+        <li><a href="/users">Master Data</a></li>
+        <li><a href="/roles">Role</a></li>
     </ul>
-</aside>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const sidebarLinks = document.querySelectorAll('.sidebar a');
+            sidebarLinks.forEach(link => {
+                link.addEventListener('click', function () {
+                    alert(`Navigating to: ${this.href}`);
+                });
+            });
+        });
+    </script>
+</div>
 </body>
 </html>
