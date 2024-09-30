@@ -3,6 +3,7 @@ package com.ndp.token;
 import com.google.gson.Gson;
 import com.ndp.config.UrlWhitelistConfig;
 import com.ndp.model.dto.response.ResponseDto;
+import com.ndp.util.TokenUtil;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
@@ -105,23 +106,10 @@ public class JwtFilter extends OncePerRequestFilter {
         response.getWriter().write(new Gson().toJson(error));
     }
 
-    private String getTokenFromCookie(HttpServletRequest request) {
-        Cookie[] cookies = request.getCookies();
-        if (cookies != null) {
-            for (Cookie cookie : cookies) {
-                if (cookie.getName().equals("access-token")) {
-                    return cookie.getValue();
-                }
-            }
-        }
-
-        return null;
-    }
-
     private String getToken(HttpServletRequest request) throws AuthenticationException {
-        String token = request.getHeader("Authorization");
+        String token = TokenUtil.getTokenFromHeader(request);
         if (StringUtils.isEmpty(token)) {
-            return getTokenFromCookie(request);
+            return TokenUtil.getTokenFromCookie(request);
         }
 
         return token;

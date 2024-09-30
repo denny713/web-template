@@ -26,9 +26,15 @@ public class RoleMapping extends IdEntity {
     @JoinColumn(name = "menu_id", nullable = false)
     private Menu menu;
 
-    @Column(name = "read_access")
-    private boolean readAccess;
+    @Column(name = "view_access")
+    private boolean viewAccess;
 
-    @Column(name = "write_access")
-    private boolean writeAccess;
+    @Column(name = "create_access")
+    private boolean createAccess;
+
+    @Column(name = "delete_access")
+    private boolean deleteAccess;
+
+    @Column(name = "edit_access")
+    private boolean editAccess;
 }

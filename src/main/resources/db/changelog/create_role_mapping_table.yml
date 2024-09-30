@@ -23,12 +23,22 @@ databaseChangeLog:
                   constraints:
                     nullable: false
               - column:
-                  name: read_access
+                  name: view_access
                   type: BOOLEAN
                   constraints:
                     nullable: false
               - column:
-                  name: write_access
+                  name: create_access
+                  type: BOOLEAN
+                  constraints:
+                    nullable: false
+              - column:
+                  name: delete_access
+                  type: BOOLEAN
+                  constraints:
+                    nullable: false
+              - column:
+                  name: edit_access
                   type: BOOLEAN
                   constraints:
                     nullable: false

@@ -1,24 +1,24 @@
 package com.ndp.controller.view;
 
+import com.ndp.util.TokenUtil;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
+@RequestMapping("/")
 public class ViewController {
 
     @GetMapping("/login")
-    public String loginPage(Model model) {
-        return render(model, "login :: login", true);
+    public String loginPage(HttpServletRequest request) {
+        return StringUtils.isEmpty(TokenUtil.getTokenFromCookie(request)) ? "login" : "redirect:/dashboard";
     }
 
     @GetMapping({"/", "/dashboard"})
-    public String dashboard(Model model) {
-        return render(model, "dashboard :: dashboard", false);
-    }
-
-    private String render(Model model, String component, boolean isLogin) {
-        model.addAttribute("view", component);
-        return isLogin ? "layout/sign-layout" : "layout/base-layout";
+    public String dashboard(HttpServletRequest request) {
+        return request.getServletPath().equals("/") ? "redirect:/dashboard" : "dashboard";
     }
 }
