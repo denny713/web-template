@@ -10,6 +10,7 @@ import com.ndp.repository.UserRepository;
 import com.ndp.service.AuthService;
 import com.ndp.token.JwtService;
 import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -55,5 +56,23 @@ public class AuthServiceImpl implements AuthService {
         response.addCookie(cookie);
 
         return new ResponseDto(200, "Success", result);
+    }
+
+    @Override
+    public ResponseDto doLogout(HttpServletRequest request, HttpServletResponse response) {
+        try {
+            Cookie[] cookies = request.getCookies();
+            if (cookies != null) {
+                for (Cookie cookie : cookies) {
+                    cookie.setMaxAge(0);
+                    cookie.setPath("/");
+                    response.addCookie(cookie);
+                }
+            }
+        } catch (Exception e) {
+            log.error(e.getMessage());
+        }
+
+        return new ResponseDto(200, "Success", null);
     }
 }

@@ -38,7 +38,7 @@ function process(url, type, data, callback) {
             if (code !== 200) {
                 showNotice('error', "Failed", status);
             } else {
-                showNotice('success', "Success", status, callback);
+                callback(this.success);
             }
         },
         error: function (jqXHR, textStatus, errorThrown) {
