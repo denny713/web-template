@@ -35,7 +35,6 @@ function process(url, type, data, callback) {
         success: function (response) {
             let code = response["code"];
             let status = response["status"];
-            let data = response["data"];
             if (code !== 200) {
                 showNotice('error', "Failed", status);
             } else {

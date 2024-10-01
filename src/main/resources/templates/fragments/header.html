@@ -2,16 +2,38 @@
 <html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       xmlns:th="http://www.thymeleaf.org">
 <body>
-<nav class="navbar navbar-expand-md navbar-dark bg-primary" layout:fragment="header">
-    <a class="navbar-brand" th:href="@{/}">
-        <img src="/assets/img/icon.png" alt="Logo" style="height: 30px; width: auto; margin-right: 5px;"/>
-        PT. Nova Digital Perkasa
-    </a>
-    <button aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler"
-            data-target="#navbar"
-            data-toggle="collapse" type="button">
-        <span class="navbar-toggler-icon"></span>
-    </button>
+<nav class="navbar navbar-expand-md navbar-dark bg-dark" layout:fragment="header">
+    <div class="container-fluid">
+        <a class="navbar-brand" th:href="@{/}">
+            <img src="/assets/img/icon.png" alt="Logo" style="height: 30px; width: auto; margin-right: 5px;"/>
+            PT. Nova Digital Perkasa
+        </a>
+        <button class="navbar-toggler" type="button" data-mdb-toggle="collapse"
+                data-mdb-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+            <i class="fas fa-bars"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav d-flex flex-row ms-auto me-3">
+                <li class="nav-item me-3 me-lg-0 dropdown">
+                    <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle"
+                       id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img src="https://mdbootstrap.com/img/Photos/Avatars/img (31).jpg" class="rounded-circle"
+                             height="22" alt="" loading="lazy"/>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
+                        <li><a class="dropdown-item" href="#">Profile</a></li>
+                        <li>
+                            <hr class="dropdown-divider"/>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="#">Sign Out</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
 </nav>
 </body>
 </html>

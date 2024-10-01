@@ -1,19 +1,28 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <body>
-<div class="sidebar" layout:fragment="sidebar">
-    <h2>Master Data</h2>
-    <ul>
-        <li><a href="/users">Master Data</a></li>
-        <li><a href="/roles">Role</a></li>
+<div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100"
+     layout:fragment="sidebar">
+    <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
+        <li>
+            <a href="/users" class="nav-link px-0 align-middle">
+                <i class="fas fa-users"></i>
+                <span class="ms-1 d-none d-sm-inline">Master User</span></a>
+            </a>
+        </li>
+        <li>
+            <a href="/roles" class="nav-link px-0 align-middle">
+                <i class="fas fa-briefcase"></i>
+                <span class="ms-1 d-none d-sm-inline">Role</span></a>
+            </a>
+        </li>
     </ul>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             const sidebarLinks = document.querySelectorAll('.sidebar a');
             sidebarLinks.forEach(link => {
                 link.addEventListener('click', function () {
-                    alert(`Navigating to: ${this.href}`);
+                    showNotice('warning', "Information", `Navigating to: ${this.href}`);
                 });
             });
         });
