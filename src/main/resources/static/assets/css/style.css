@@ -130,18 +130,6 @@ footer {
     background-color: #16397a;
 }
 
-.forgot-password {
-    font-size: 14px;
-    color: #2040b0;
-    text-align: right;
-    display: block;
-    margin-top: 10px;
-}
-
-.forgot-password:hover {
-    text-decoration: underline;
-}
-
 .input-group-text i {
     font-size: 18px;
 }

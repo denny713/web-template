@@ -1,3 +1,14 @@
+document.addEventListener('DOMContentLoaded', function () {
+    const loginForm = document.querySelector('form');
+
+    loginForm.addEventListener('keydown', function (event) {
+        if (event.key === 'Enter') {
+            event.preventDefault();
+            doLogin();
+        }
+    });
+});
+
 function doLogin() {
     let username = $("#username").val();
     let password = $("#password").val();
