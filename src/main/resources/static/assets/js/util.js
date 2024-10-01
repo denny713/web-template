@@ -73,3 +73,25 @@ function confirm(url, message, data, callback) {
         }
     });
 }
+
+$.extend(true, $.fn.dataTable.defaults, {
+    "scrollX": true,
+    "scrollY": "400px",
+    "language": {
+        "search": "Searching Data : ",
+        "loadingRecords": "Please Wait...",
+        "processing": "Processing...",
+        "lengthMenu": "Showing _MENU_ data",
+        "infoEmpty": "Showing 0 to 0 from 0 data",
+        "info": "Showing _START_ to _END_ from _TOTAL_ data",
+        "emptyTable": "No data shown",
+        "zeroRecords": "No search available",
+        "infoFiltered": "(filter from _MAX_ total data)",
+        "paginate": {
+            "first": "<i class='fas fa-angle-double-left'></i>",
+            "last": "<i class='fas fa-angle-double-right'></i>",
+            "next": "<i class='fas fa-angle-right'></i>",
+            "previous": "<i class='fas fa-angle-left'></i>"
+        }
+    }
+});
