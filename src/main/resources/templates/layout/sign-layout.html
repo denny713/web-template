@@ -18,9 +18,9 @@
         <script src="/assets/js/jquery.min.js"></script>
         <script src="/assets/js/sweetalert2.min.js"></script>
     </head>
-    <body>
+    <body class="sign-body">
         <section layout:fragment="content"></section>
-        <div th:replace="fragments/footer :: footer"></div>
+        <div th:replace="~{fragments/footer}"></div>
         <th:block layout:fragment="optional"/>
     </body>
 </html>

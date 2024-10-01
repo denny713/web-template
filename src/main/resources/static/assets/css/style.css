@@ -8,6 +8,15 @@
 body, html {
     height: 100%;
     font-family: Poppins-Regular, sans-serif;
+    display: block;
+    justify-content: normal;
+    align-items: normal;
+    background-color: #6666ff;
+}
+
+.sign-body body, .sign-body html {
+    height: 100%;
+    font-family: Poppins-Regular, sans-serif;
     display: flex;
     justify-content: center;
     align-items: center;
