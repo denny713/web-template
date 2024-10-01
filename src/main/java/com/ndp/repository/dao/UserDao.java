@@ -28,10 +28,8 @@ public class UserDao extends CommonDao {
             add(predicates, like(dto.getEmail(), "email", root, cb));
             add(predicates, like(dto.getRole(), "name", root.join("role", JoinType.LEFT), cb));
 
-            if (dto.isActive()) {
-                add(predicates, isTrue("active", root, cb));
-            } else {
-                add(predicates, isFalse("active", root, cb));
+            if (dto.getActive() != null) {
+                add(predicates, dto.getActive() ? isTrue("active", root, cb) : isFalse("active", root, cb));
             }
 
             return cb.and(predicates.toArray(new Predicate[0]));

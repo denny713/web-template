@@ -74,24 +74,58 @@ function confirm(url, message, data, callback) {
     });
 }
 
-$.extend(true, $.fn.dataTable.defaults, {
-    "scrollX": true,
-    "scrollY": "400px",
-    "language": {
-        "search": "Searching Data : ",
-        "loadingRecords": "Please Wait...",
-        "processing": "Processing...",
-        "lengthMenu": "Showing _MENU_ data",
-        "infoEmpty": "Showing 0 to 0 from 0 data",
-        "info": "Showing _START_ to _END_ from _TOTAL_ data",
-        "emptyTable": "No data shown",
-        "zeroRecords": "No search available",
-        "infoFiltered": "(filter from _MAX_ total data)",
-        "paginate": {
-            "first": "<i class='fas fa-angle-double-left'></i>",
-            "last": "<i class='fas fa-angle-double-right'></i>",
-            "next": "<i class='fas fa-angle-right'></i>",
-            "previous": "<i class='fas fa-angle-left'></i>"
+function get(url, request) {
+    let data = {};
+    let accessToken = getCookie('access-token');
+
+    $.ajax({
+        url: url,
+        type: "POST",
+        async: false,
+        dataType: 'json',
+        data: JSON.stringify(request),
+        contentType: 'application/json; charset=utf-8',
+        cache: false,
+        timeout: 600000,
+        beforeSend: function (xhr) {
+            showLoading();
+            if (accessToken) {
+                xhr.setRequestHeader("Authorization", "Bearer " + accessToken);
+            }
         }
+    }).done(function (response) {
+        hideLoading();
+        data = response;
+    }).fail(function (jqXHR, textStatus, errorThrown) {
+        hideLoading();
+        try {
+            let response = JSON.parse(jqXHR.responseText);
+            if (response.data && response.data.error) {
+                let errorMessage = response.data.error;
+                showNotice('error', "Error", errorMessage);
+            } else {
+                showNotice('error', "Error", textStatus + " : " + errorThrown);
+            }
+        } catch (e) {
+            showNotice('error', "Error", textStatus + " : " + errorThrown);
+        }
+        data = null;
+    });
+    return data;
+}
+
+function hideLoading() {
+    $("#loading").modal("hide");
+}
+
+function showLoading() {
+    $("#loading").modal("show");
+}
+
+function getCookie(name) {
+    let match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+    if (match) {
+        return match[2];
     }
-});
+    return null;
+}

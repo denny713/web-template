@@ -11,5 +11,5 @@ public class SearchUserDto extends PageRequestDto {
     private String name;
     private String email;
     private String role;
-    private boolean active;
+    private Boolean active;
 }

@@ -153,8 +153,8 @@ public class UserServiceImpl implements UserService {
             Page<User> users = userRepository.findAll(
                     userDao.buildFindUsers(dto),
                     PageRequest.of(
-                            dto.getPage(),
-                            dto.getSize() <= 0 ? 1 : dto.getSize(),
+                            dto.getPage() == null ? 0 : dto.getPage(),
+                            dto.getSize() == null || dto.getSize() <= 0 ? 1 : dto.getSize(),
                             Sort.by(
                                     dto.getSort() == null ? Sort.Direction.ASC : dto.getSort(),
                                     StringUtils.isEmpty(dto.getSortBy()) ? "name" : dto.getSortBy()
@@ -163,6 +163,7 @@ public class UserServiceImpl implements UserService {
             );
 
             users.forEach(x -> results.add(new UserResponseDto(
+                    x.getId(),
                     x.getUsername(),
                     x.getName(),
                     x.getEmail(),
