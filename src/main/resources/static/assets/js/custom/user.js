@@ -19,11 +19,11 @@ function searchUsers() {
 
         let active = data.data[x].active;
         let status = active ? "Active" : "Non Active";
-        let updStatAction = active ? '<a href="#" onClick="deactive(\'' + data.data[x].id + '\')">Deactivate&nbsp;User</a>'
-            : '<a href="#" onClick="reactive(\'' + data.data[x].id + '\')">Reactivate&nbsp;User</a>';
-        let resetAction = '<a href="#" onClick="resetPass(\'' + data.data[x].id + '\')">Reset&nbsp;Password</a>';
-        let deleteAction = '<a href="#" onClick="deleteUser(\'' + data.data[x].id + '\')">Delete&nbsp;User</a>';
-        let actions = updStatAction + " | " + resetAction + " | " + deleteAction
+        let updStatAction = active ? '<a href="#" onClick="deactive(\'' + data.data[x].id + '\',\'' + data.data[x].username + '\')">Deactivate&nbsp;User</a>'
+            : '<a href="#" onClick="reactive(\'' + data.data[x].id + '\',\'' + data.data[x].username + '\')">Reactivate&nbsp;User</a>';
+        let resetAction = '<a href="#" onClick="resetPass(\'' + data.data[x].id + '\',\'' + data.data[x].username + '\')">Reset&nbsp;Password</a>';
+        let deleteAction = '<a href="#" onClick="deleteUser(\'' + data.data[x].id + '\',\'' + data.data[x].username + '\')">Delete&nbsp;User</a>';
+        let actions = updStatAction + " | " + resetAction + " | " + deleteAction;
 
         xtable.row.add([
             no,
@@ -39,18 +39,32 @@ function searchUsers() {
     xtable.draw();
 }
 
-function resetPass(id) {
-    alert("Reset " + id);
+function resetPass(id, username) {
+    confirm("/api/user/password/reset", "Are you sure want to reset password this user: " + username + " ?", generateRequest(id), function () {
+        pageReload()
+    });
 }
 
-function deleteUser(id) {
-    alert("Delete " + id);
+function deleteUser(id, username) {
+    confirm("/api/user/delete", "Are you sure want to delete this user: " + username + " ?", generateRequest(id), function () {
+        pageReload()
+    });
 }
 
-function reactive(id) {
-    alert("Reactivate " + id);
+function reactive(id, username) {
+    confirm("/api/user/reactivate", "Are you sure want to reactivate this user: " + username + " ?", generateRequest(id), function () {
+        pageReload()
+    });
 }
 
-function deactive(id) {
-    alert("Deactivate " + id);
+function deactive(id, username) {
+    confirm("/api/user/deactivate", "Are you sure want to deactivate this user: " + username + " ?", generateRequest(id), function () {
+        pageReload()
+    });
+}
+
+function generateRequest(id) {
+    let request = {};
+    request["userId"] = id;
+    return request;
 }

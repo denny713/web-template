@@ -19,9 +19,11 @@ import com.ndp.util.AccountUtil;
 import com.ndp.util.EmailUtil;
 import com.ndp.util.EncryptUtil;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -33,11 +35,14 @@ import java.util.Objects;
 
 @Slf4j
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
+
+    @Value("${app.default-password}")
+    private String defaultPassword;
 
     private static final String SUCCESS = "Success";
 
@@ -69,7 +74,7 @@ public class UserServiceImpl implements UserService {
         BeanUtils.copyProperties(dto, user);
         user.setMustChangePassword(true);
         user.setRole(role);
-        user.setPassword(EncryptUtil.encrypt(AccountUtil.getDefaultPassword()));
+        user.setPassword(EncryptUtil.encrypt(defaultPassword));
         user = userRepository.save(user);
 
         return new ResponseDto(201, SUCCESS, user);
@@ -86,7 +91,7 @@ public class UserServiceImpl implements UserService {
             throw new NotFoundException("User detail not found");
         }
 
-        user.setPassword(EncryptUtil.encrypt(AccountUtil.getDefaultPassword()));
+        user.setPassword(EncryptUtil.encrypt(defaultPassword));
         user.setMustChangePassword(true);
         user = userRepository.save(user);
 
@@ -139,6 +144,23 @@ public class UserServiceImpl implements UserService {
         }
 
         user.setDeleted(true);
+        userRepository.save(user);
+
+        return new ResponseDto(200, SUCCESS, null);
+    }
+
+    @Override
+    public ResponseDto statusUpdate(UpdatePassUserDto dto, boolean isActive) {
+        if (dto.getUserId() == null) {
+            throw new BadRequestException("User ID cannot be null or empty");
+        }
+
+        User user = userRepository.findById(dto.getUserId()).orElse(null);
+        if (user == null) {
+            throw new NotFoundException("User detail not found");
+        }
+
+        user.setActive(!isActive);
         userRepository.save(user);
 
         return new ResponseDto(200, SUCCESS, null);

@@ -18,5 +18,7 @@ public interface UserService {
 
     ResponseDto deleteUser(UpdatePassUserDto dto);
 
+    ResponseDto statusUpdate(UpdatePassUserDto dto, boolean isActive);
+
     PageResponseDto searchUser(SearchUserDto dto);
 }

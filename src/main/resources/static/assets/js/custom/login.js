@@ -21,7 +21,7 @@ function doLogin() {
         data["username"] = username;
         data["password"] = password;
 
-        process("/api/auth/login", "POST", data, function () {
+        processAuth("/api/auth/login", "POST", data, function () {
             redirect("/dashboard");
         });
     }

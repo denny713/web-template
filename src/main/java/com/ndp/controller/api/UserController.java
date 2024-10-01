@@ -36,6 +36,21 @@ public class UserController {
         return ResponseEntity.ok(userService.updatePass(dto));
     }
 
+    @PostMapping("/delete")
+    public ResponseEntity<ResponseDto> deleteUser(@Valid @RequestBody UpdatePassUserDto dto) {
+        return ResponseEntity.ok(userService.deleteUser(dto));
+    }
+
+    @PostMapping("/reactivate")
+    public ResponseEntity<ResponseDto> reactivateUser(@Valid @RequestBody UpdatePassUserDto dto) {
+        return ResponseEntity.ok(userService.statusUpdate(dto, false));
+    }
+
+    @PostMapping("/deactivate")
+    public ResponseEntity<ResponseDto> deactivateUser(@Valid @RequestBody UpdatePassUserDto dto) {
+        return ResponseEntity.ok(userService.statusUpdate(dto, true));
+    }
+
     @PostMapping("/list")
     public ResponseEntity<PageResponseDto> searchUser(@Valid @RequestBody SearchUserDto dto) {
         return ResponseEntity.ok(userService.searchUser(dto));

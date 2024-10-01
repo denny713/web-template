@@ -22,7 +22,7 @@ function showNotice(type, title, message, callback) {
     });
 }
 
-function process(url, type, data, callback) {
+function processAuth(url, type, data, callback) {
     $.ajax({
         url: url,
         type: type,
@@ -59,7 +59,7 @@ function process(url, type, data, callback) {
 
 function confirm(url, message, data, callback) {
     Swal.fire({
-        title: 'Konfirmasi',
+        title: 'Confirmation',
         text: message,
         icon: 'question',
         showCancelButton: true,
@@ -70,6 +70,41 @@ function confirm(url, message, data, callback) {
     }).then(function (ask) {
         if (ask.value) {
             process(url, "POST", data, callback);
+        }
+    });
+}
+
+function process(url, type, data, callback) {
+    $.ajax({
+        url: url,
+        type: type,
+        dataType: 'json',
+        data: JSON.stringify(data),
+        contentType: 'application/json; charset=utf-8',
+        cache: false,
+        async: false,
+        timeout: 600000,
+        success: function (response) {
+            let code = response["code"];
+            let status = response["status"];
+            if (code !== 200) {
+                showNotice('error', "Failed", status);
+            } else {
+                showNotice('success', "Success", status, callback);
+            }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            try {
+                let response = JSON.parse(jqXHR.responseText);
+                if (response.data && response.data.error) {
+                    let errorMessage = response.data.error;
+                    showNotice('error', "Error", errorMessage);
+                } else {
+                    showNotice('error', "Error", textStatus + " : " + errorThrown);
+                }
+            } catch (e) {
+                showNotice('error', "Error", textStatus + " : " + errorThrown);
+            }
         }
     });
 }
@@ -120,6 +155,10 @@ function hideLoading() {
 
 function showLoading() {
     $("#loading").modal("show");
+}
+
+function pageReload() {
+    location.reload();
 }
 
 function getCookie(name) {
