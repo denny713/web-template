@@ -28,4 +28,9 @@ public class ViewController {
     public String usersPage(HttpServletRequest request) {
         return "user";
     }
+
+    @GetMapping("/profile")
+    public String profilePage(HttpServletRequest request) {
+        return "profile";
+    }
 }

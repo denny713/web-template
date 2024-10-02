@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en"
+      layout:decorate="~{layout/base-layout}"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <script src="/assets/js/custom/user.js"></script>
+    <script src="/assets/js/components/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            fillProfile();
+        });
+    </script>
+</head>
+<body>
+<div layout:fragment="content">
+    <form>
+        <div class="row form-group">
+            <div class="col">
+                <fieldset>
+                    <legend>User Detail</legend>
+                    <div class="row">
+                        <div class="row form-group">
+                            <div class="col-sm-2">
+                                <label class="display-label" for="username-profile">Username</label>
+                            </div>
+                            <div class="col-sm-4">
+                                <input id="username-profile" name="username-profile" class="form-control" disabled="disabled"/>
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-sm-2">
+                                <label class="display-label" for="name-profile">Name</label>
+                            </div>
+                            <div class="col-sm-4">
+                                <input id="name-profile" name="name-profile" class="form-control" disabled="disabled"/>
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-sm-2">
+                                <label class="display-label" for="email-profile">Email</label>
+                            </div>
+                            <div class="col-sm-4">
+                                <input id="email-profile" name="email-profile" class="form-control" disabled="disabled"/>
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-sm-2">
+                                <label class="display-label" for="role-profile">Role</label>
+                            </div>
+                            <div class="col-sm-4">
+                                <input id="role-profile" name="role-profile" class="form-control" disabled="disabled"/>
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-sm-2">
+                                <label class="display-label" for="desc-profile">Role Description</label>
+                            </div>
+                            <div class="col-sm-4">
+                                <input id="desc-profile" name="desc-profile" class="form-control" disabled="disabled"/>
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-sm-2">
+                                <label class="display-label" for="stat-profile">Status</label>
+                            </div>
+                            <div class="col-sm-4">
+                                <input id="stat-profile" name="stat-profile" class="form-control" disabled="disabled"/>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+        </div>
+    </form>
+</div>
+</body>
+</html>

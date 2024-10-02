@@ -5,5 +5,5 @@ function logout() {
 }
 
 function profile() {
-    alert("Profile");
+    redirect("/profile");
 }

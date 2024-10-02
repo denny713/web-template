@@ -159,3 +159,14 @@ function generateRequest(id) {
     request["userId"] = id;
     return request;
 }
+
+function fillProfile() {
+    let data = get("/api/user/me");
+    let status = data.data.active;
+    $("#username-profile").val(data.data.username);
+    $("#name-profile").val(data.data.name);
+    $("#email-profile").val(data.data.email);
+    $("#role-profile").val(data.data.role);
+    $("#desc-profile").val(data.data.roleDescription);
+    $("#stat-profile").val(status === true ? "Active" : "Non Active");
+}
