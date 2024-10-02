@@ -18,15 +18,6 @@
                 <div class="col-xs-12">
                     <div class="row form-group">
                         <div class="col-sm-4">
-                            <label class="display-label-modal" for="username-modal">Username</label>
-                        </div>
-                        <div class="col-sm-8">
-                            <input id="username-modal" name="username-modal" placeholder="Username"
-                                   class="form-control"/>
-                        </div>
-                    </div>
-                    <div class="row form-group">
-                        <div class="col-sm-4">
                             <label class="display-label-modal" for="name-modal">Name</label>
                         </div>
                         <div class="col-sm-8">
@@ -36,19 +27,50 @@
                     </div>
                     <div class="row form-group">
                         <div class="col-sm-4">
-                            <label class="display-label-modal" for="email-modal">Email</label>
+                            <label class="display-label-modal" for="desc-modal">Description</label>
                         </div>
                         <div class="col-sm-8">
-                            <input id="email-modal" name="email-modal" placeholder="Email"
+                            <input id="desc-modal" name="desc-modal" placeholder="Email"
                                    class="form-control"/>
                         </div>
                     </div>
                     <div class="row form-group">
                         <div class="col-sm-4">
-                            <label class="display-label-modal" for="role-modal">Role</label>
+                            <label class="display-label-modal" for="menu-modal">Menu Access</label>
                         </div>
                         <div class="col-sm-8">
-                            <select id="role-modal" name="role-modal" class="form-select"></select>
+                            <select id="menu-modal" name="menu-modal" class="form-select"></select>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col-sm-4">
+                            <label class="display-label-modal">Permission</label>
+                        </div>
+                        <div class="col-sm-8">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" id="viewCheck">
+                                <label class="form-check-label" for="viewCheck">
+                                    View
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" id="createCheck">
+                                <label class="form-check-label" for="createCheck">
+                                    Create
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" id="deleteCheck">
+                                <label class="form-check-label" for="deleteCheck">
+                                    Delete
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" id="editCheck">
+                                <label class="form-check-label" for="editCheck">
+                                    Edit
+                                </label>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -60,7 +82,7 @@
                     Cancel
                 </button>
                 <button class="btn btn-primary btn-sm btn-fix" type="button"
-                        onclick="saveUser()">
+                        onclick="saveRole()">
                     <i class="fas fa-save"></i>
                     Save
                 </button>

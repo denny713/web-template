@@ -1,29 +1,38 @@
 package com.ndp.service.impl;
 
 import com.ndp.exception.BadRequestException;
+import com.ndp.exception.NotFoundException;
 import com.ndp.exception.ServiceException;
 import com.ndp.model.dto.request.RegisterRoleDto;
+import com.ndp.model.dto.request.RoleMappingDto;
 import com.ndp.model.dto.request.SearchRoleDto;
+import com.ndp.model.dto.request.UpdateRoleDto;
 import com.ndp.model.dto.response.PageResponseDto;
 import com.ndp.model.dto.response.ResponseDto;
 import com.ndp.model.dto.response.RoleResponseDto;
+import com.ndp.model.entity.Menu;
 import com.ndp.model.entity.Role;
+import com.ndp.model.entity.RoleMapping;
+import com.ndp.repository.MenuRepository;
+import com.ndp.repository.RoleMappingRepository;
 import com.ndp.repository.RoleRepository;
+import com.ndp.repository.UserRepository;
 import com.ndp.repository.dao.RoleDao;
 import com.ndp.service.RoleService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -31,10 +40,13 @@ import java.util.Map;
 public class RoleServiceImpl implements RoleService {
 
     private final RoleRepository roleRepository;
+    private final MenuRepository menuRepository;
+    private final RoleMappingRepository roleMappingRepository;
 
     private static final String SUCCESS = "Success";
 
     @Override
+    @Transactional
     public PageResponseDto searchRole(SearchRoleDto dto) {
         try {
             RoleDao roleDao = new RoleDao();
@@ -70,21 +82,44 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
+    @Transactional
     public ResponseDto registerRole(RegisterRoleDto dto) {
+        dto.setDescription(StringUtils.isEmpty(dto.getDescription()) ? "-" : dto.getDescription());
         if (StringUtils.isEmpty(dto.getName())) {
             throw new BadRequestException("Role name cannot be null or empty");
         }
 
-        dto.setDescription(StringUtils.isEmpty(dto.getDescription()) ? "-" : dto.getDescription());
-
         Role role = new Role();
-        BeanUtils.copyProperties(dto, role);
-        roleRepository.save(role);
+        role.setName(dto.getName());
+        role.setDescription(dto.getDescription());
+        Role savedRole = roleRepository.save(role);
 
-        return new ResponseDto(201, SUCCESS, null);
+        List<RoleMapping> roleMappings = new ArrayList<>();
+        List<RoleMappingDto> dtos = dto.getRoleMapping();
+        List<Menu> menus = menuRepository.findByIdIn(dtos.stream()
+                .map(RoleMappingDto::getMenuId).toList());
+        dtos.forEach(x -> {
+            Menu menu = menus.stream().filter(menuDetail -> menuDetail.getId().equals(x.getMenuId())).findFirst().orElse(null);
+            if (menu == null) {
+                throw new NotFoundException("Menu detail not found");
+            }
+
+            RoleMapping roleMapping = new RoleMapping();
+            roleMapping.setRole(savedRole);
+            roleMapping.setMenu(menu);
+            roleMapping.setViewAccess(x.isView());
+            roleMapping.setCreateAccess(x.isCreate());
+            roleMapping.setDeleteAccess(x.isDelete());
+            roleMapping.setEditAccess(x.isEdit());
+            roleMappings.add(roleMapping);
+        });
+
+        roleMappingRepository.saveAll(roleMappings);
+        return new ResponseDto(201, SUCCESS, savedRole);
     }
 
     @Override
+    @Transactional
     public ResponseDto getAllRolesToOptions() {
         List<Role> roles = roleRepository.findAll();
 
@@ -97,5 +132,55 @@ public class RoleServiceImpl implements RoleService {
         });
 
         return new ResponseDto(200, SUCCESS, roleOptions);
+    }
+
+    @Override
+    @Transactional
+    public ResponseDto updateRole(UpdateRoleDto dto) {
+        dto.setDescription(StringUtils.isEmpty(dto.getDescription()) ? "-" : dto.getDescription());
+        if (dto.getId() == null) {
+            throw new BadRequestException("Role ID cannot be null or empty");
+        }
+
+        if (StringUtils.isEmpty(dto.getName())) {
+            throw new BadRequestException("Role name cannot be null or empty");
+        }
+
+        Role role = roleRepository.findById(dto.getId()).orElse(null);
+        if (role == null) {
+            throw new NotFoundException("Role detail not found");
+        }
+
+        role.setName(dto.getName());
+        role.setDescription(dto.getDescription());
+
+        List<RoleMapping> existingRoleMaps = roleMappingRepository.findByRoleId(dto.getId());
+        if (!existingRoleMaps.isEmpty()) {
+            roleMappingRepository.deleteAll(existingRoleMaps);
+        }
+
+        List<RoleMapping> roleMappings = new ArrayList<>();
+        List<RoleMappingDto> dtos = dto.getRoleMapping();
+        List<Menu> menus = menuRepository.findByIdIn(dtos.stream()
+                .map(RoleMappingDto::getMenuId).toList());
+        dtos.forEach(x -> {
+            Menu menu = menus.stream().filter(menuDetail -> menuDetail.getId().equals(x.getMenuId())).findFirst().orElse(null);
+            if (menu == null) {
+                throw new NotFoundException("Menu detail not found");
+            }
+
+            RoleMapping roleMapping = new RoleMapping();
+            roleMapping.setRole(role);
+            roleMapping.setMenu(menu);
+            roleMapping.setViewAccess(x.isView());
+            roleMapping.setCreateAccess(x.isCreate());
+            roleMapping.setDeleteAccess(x.isDelete());
+            roleMapping.setEditAccess(x.isEdit());
+            roleMappings.add(roleMapping);
+        });
+
+        roleRepository.save(role);
+        roleMappingRepository.saveAll(roleMappings);
+        return new ResponseDto(201, SUCCESS, role);
     }
 }

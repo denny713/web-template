@@ -2,6 +2,7 @@ package com.ndp.controller.api;
 
 import com.ndp.model.dto.request.RegisterRoleDto;
 import com.ndp.model.dto.request.SearchRoleDto;
+import com.ndp.model.dto.request.UpdateRoleDto;
 import com.ndp.model.dto.response.PageResponseDto;
 import com.ndp.model.dto.response.ResponseDto;
 import com.ndp.service.RoleService;
@@ -33,5 +34,10 @@ public class RoleController {
     @PostMapping("/options")
     public ResponseEntity<ResponseDto> roleOptions() {
         return ResponseEntity.ok(roleService.getAllRolesToOptions());
+    }
+
+    @PostMapping("/update")
+    public ResponseEntity<ResponseDto> updateRole(@Valid @RequestBody UpdateRoleDto dto) {
+        return ResponseEntity.ok(roleService.updateRole(dto));
     }
 }

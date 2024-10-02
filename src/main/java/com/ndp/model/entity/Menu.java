@@ -18,4 +18,7 @@ public class Menu extends BaseEntity {
 
     @Column(name = "description")
     private String description;
+
+    @Column(name = "icon")
+    private String icon;
 }

@@ -16,12 +16,12 @@ import org.hibernate.annotations.NotFoundAction;
 @Table(name = "role_mapping")
 public class RoleMapping extends IdEntity {
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @NotFound(action = NotFoundAction.IGNORE)
     @JoinColumn(name = "role_id", nullable = false)
     private Role role;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @NotFound(action = NotFoundAction.IGNORE)
     @JoinColumn(name = "menu_id", nullable = false)
     private Menu menu;

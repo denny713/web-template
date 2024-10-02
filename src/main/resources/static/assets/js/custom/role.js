@@ -40,6 +40,10 @@ function searchRole() {
     xtable.draw();
 }
 
+function saveRole() {
+    alert("Save");
+}
+
 function addRole() {
     alert("Add");
 }
