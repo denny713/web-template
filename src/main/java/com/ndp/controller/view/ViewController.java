@@ -18,6 +18,14 @@ public class ViewController {
 
     @GetMapping({"/", "/dashboard", "/index", "/home"})
     public String dashboard(HttpServletRequest request) {
-        return request.getServletPath().equals("/") ? "redirect:/dashboard" : "index";
+        return (request.getServletPath().equals("/home")
+                || request.getServletPath().equals("/index")
+                || request.getServletPath().equals("/"))
+                ? "redirect:/dashboard" : "index";
+    }
+
+    @GetMapping("/users")
+    public String usersPage(HttpServletRequest request) {
+        return "user";
     }
 }

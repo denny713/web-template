@@ -22,4 +22,9 @@ public class RoleController {
     public ResponseEntity<ResponseDto> registerRole(@Valid @RequestBody RegisterRoleDto dto) {
         return ResponseEntity.ok(roleService.registerRole(dto));
     }
+
+    @PostMapping("/options")
+    public ResponseEntity<ResponseDto> roleOptions() {
+        return ResponseEntity.ok(roleService.getAllRolesToOptions());
+    }
 }

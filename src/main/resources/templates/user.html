@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en"
+      layout:decorate="~{layout/base-layout}"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <script src="/assets/js/custom/user.js"></script>
+    <script src="/assets/js/components/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            fillRoles();
+            searchUsers();
+        });
+    </script>
+</head>
+<body>
+<div layout:fragment="content">
+    <form>
+        <div class="row form-group">
+            <div class="col">
+                <fieldset>
+                    <legend>User Data</legend>
+                    <div class="row">
+                        <div class="row form-group">
+                            <div class="col-sm-2">
+                                <label class="display-label" for="username">Username</label>
+                            </div>
+                            <div class="col-sm-4">
+                                <input id="username" name="username" placeholder="Username" class="form-control"/>
+                            </div>
+                            <div class="col-sm-2">
+                                <label class="display-label" for="name">Name</label>
+                            </div>
+                            <div class="col-sm-4">
+                                <input id="name" name="name" placeholder="Name" class="form-control"/>
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-sm-2">
+                                <label class="display-label" for="email">Email</label>
+                            </div>
+                            <div class="col-sm-4">
+                                <input id="email" name="email" placeholder="Email" class="form-control"/>
+                            </div>
+                            <div class="col-sm-2">
+                                <label class="display-label" for="role">Role</label>
+                            </div>
+                            <div class="col-sm-4">
+                                <select id="role" name="role" class="form-select"></select>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <button class="btn btn-danger btn-sm btn-fix" type="button" onclick="addNew()"
+                                data-bs-toggle="modal" data-bs-target="#userDetail">
+                            <i class="fas fa-add"></i>
+                            Add
+                        </button>
+                        <button class="btn btn-primary btn-sm btn-fix" type="button"
+                                onclick="searchUsers();return false;">
+                            <i class="fas fa-search"></i>
+                            Search
+                        </button>
+                    </div>
+                </fieldset>
+                <br>
+                <div class="col-md-12">
+                    <table id="example" class="table table-striped table-bordered display nowrap">
+                        <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Username</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Role</th>
+                            <th>Status</th>
+                            <th>Created Date</th>
+                            <th>Action</th>
+                        </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div th:replace="~{fragments/user-dialog}"></div>
+    </form>
+</div>
+</body>
+</html>

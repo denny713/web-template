@@ -55,7 +55,7 @@ public class JwtFilter extends OncePerRequestFilter {
         log.info("Entering JWT filter for {}", request.getServletPath());
 
         try {
-            String token = getToken(request);
+            String token = TokenUtil.getToken(request);
             if (StringUtils.isEmpty(token)) {
                 log.info("No JWT token found in request headers or cookies");
                 response.sendRedirect("/login");
@@ -104,14 +104,5 @@ public class JwtFilter extends OncePerRequestFilter {
         response.setStatus(errStatus.value());
         response.setContentType("application/json");
         response.getWriter().write(new Gson().toJson(error));
-    }
-
-    private String getToken(HttpServletRequest request) throws AuthenticationException {
-        String token = TokenUtil.getTokenFromHeader(request);
-        if (StringUtils.isEmpty(token)) {
-            return TokenUtil.getTokenFromCookie(request);
-        }
-
-        return token;
     }
 }

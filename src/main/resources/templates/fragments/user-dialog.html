@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="/assets/js/custom/user.js"></script>
+</head>
+<body>
+<div class="modal fade"
+     id="userDetail" data-bs-backdrop="static" data-bs-keyboard="false"
+     tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="staticBackdropLabel">User Detail</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="col-xs-12">
+                    <div class="row form-group">
+                        <div class="col-sm-4">
+                            <label class="display-label-modal" for="username-modal">Username</label>
+                        </div>
+                        <div class="col-sm-8">
+                            <input id="username-modal" name="username-modal" placeholder="Username"
+                                   class="form-control"/>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col-sm-4">
+                            <label class="display-label-modal" for="name-modal">Username</label>
+                        </div>
+                        <div class="col-sm-8">
+                            <input id="name-modal" name="name-modal" placeholder="Name"
+                                   class="form-control"/>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col-sm-4">
+                            <label class="display-label-modal" for="email-modal">Email</label>
+                        </div>
+                        <div class="col-sm-8">
+                            <input id="email-modal" name="email-modal" placeholder="Email"
+                                   class="form-control"/>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col-sm-4">
+                            <label class="display-label-modal" for="role-modal">Role</label>
+                        </div>
+                        <div class="col-sm-8">
+                            <select id="role-modal" name="role-modal" class="form-select"></select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <input type="hidden" id="id-modal" name="id-modal"/>
+                <button type="button" class="btn btn-danger btn-sm btn-fix" data-bs-dismiss="modal">
+                    <i class="fas fa-cancel"></i>
+                    Cancel
+                </button>
+                <button class="btn btn-primary btn-sm btn-fix" type="button"
+                        onclick="saveUser()">
+                    <i class="fas fa-save"></i>
+                    Save
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

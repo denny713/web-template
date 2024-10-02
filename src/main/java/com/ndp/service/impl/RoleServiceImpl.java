@@ -12,6 +12,11 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 @Slf4j
 @Service
 @AllArgsConstructor
@@ -32,5 +37,20 @@ public class RoleServiceImpl implements RoleService {
         roleRepository.save(role);
 
         return new ResponseDto(201, "Success", null);
+    }
+
+    @Override
+    public ResponseDto getAllRolesToOptions() {
+        List<Role> roles = roleRepository.findAll();
+
+        List<Map<String, String>> roleOptions = new ArrayList<>();
+        roles.forEach(x -> {
+            Map<String, String> roleOption = new HashMap<>();
+            roleOption.put("key", x.getId().toString());
+            roleOption.put("value", x.getDescription());
+            roleOptions.add(roleOption);
+        });
+
+        return new ResponseDto(200, "Success", roleOptions);
     }
 }

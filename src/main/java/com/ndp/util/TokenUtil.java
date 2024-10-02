@@ -27,4 +27,13 @@ public class TokenUtil {
 
         return null;
     }
+
+    public static String getToken(HttpServletRequest request) {
+        String token = TokenUtil.getTokenFromHeader(request);
+        if (StringUtils.isEmpty(token)) {
+            return TokenUtil.getTokenFromCookie(request);
+        }
+
+        return token;
+    }
 }

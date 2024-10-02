@@ -3,13 +3,15 @@ package com.ndp.model.dto.request;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.UUID;
+
 @Getter
 @Setter
-public class SearchUserDto extends PageRequestDto {
+public class UpdateUserDto {
 
+    private UUID userId;
     private String username;
     private String name;
     private String email;
-    private String role;
-    private Boolean active;
+    private UUID roleId;
 }

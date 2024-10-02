@@ -84,6 +84,28 @@ footer {
     text-align: center;
 }
 
+fieldset {
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 10px;
+    background-color: #343a40;
+}
+
+legend {
+    font-family: Poppins-Regular, sans-serif;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: bold;
+    line-height: 20px;
+    margin-bottom: 0;
+    width: auto;
+    padding: 0 10px;
+    border: 1px solid #e0e0e0;
+    float: none;
+    color: #e0e0e0;
+    background-color: #343a40;
+}
+
 .header {
     position: fixed;
     top: 0;
@@ -112,6 +134,49 @@ footer {
     overflow-y: auto;
 }
 
+.modal-header-colour {
+    background-color: #f80606;
+}
+
+table.dataTable thead tr {
+    background-color: #f80606;
+}
+
+.dataTables_scrollBody > table > thead > tr {
+    visibility: collapse;
+    height: 0 !important;
+}
+
+.dataTables_wrapper .dataTables_length,
+.dataTables_wrapper .dataTables_filter,
+.dataTables_wrapper .dataTables_info,
+.dataTables_wrapper .dataTables_paginate {
+    font-weight: bold;
+    color: #e0e0e0 !important;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+    color: #e0e0e0 !important;
+    font-weight: bold !important;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+    background-color: #e0e0e0 !important;
+    color: #fff !important;
+}
+
+.dataTables_length select {
+    background-color: #e0e0e0 !important;
+    color: #000 !important;
+    border: 1px solid #ddd !important;
+}
+
+.dataTables_filter input {
+    background-color: #e0e0e0 !important;
+    color: #000 !important;
+    border: 1px solid #ddd !important;
+}
+
 .login-container {
     min-height: 100vh;
     display: flex;
@@ -123,7 +188,7 @@ footer {
     background-color: white;
     padding: 40px;
     border-radius: 8px;
-    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
     max-width: 400px;
     width: 100%;
 }
@@ -135,14 +200,16 @@ footer {
     text-align: center;
 }
 
-.form-control {
-    border-radius: 0 30px 30px 0; /* Melengkung di kanan */
+.form-control-auth {
+    border-radius: 0 30px 30px 0;
     padding: 10px 20px;
     font-size: 14px;
+    border: 1px solid #ced4da;
+    color: #666;
 }
 
 .input-group-text {
-    border-radius: 30px 0 0 30px; /* Melengkung di kiri */
+    border-radius: 30px 0 0 30px;
     background-color: transparent;
     border: 1px solid #ced4da;
     color: #666;
@@ -166,4 +233,24 @@ footer {
 
 .dropdown-item {
     cursor: pointer;
+}
+
+.display-label {
+    font-family: Poppins-Regular, sans-serif;
+    font-weight: bold;
+    margin: 0.5em 0;
+    float: left;
+    color: #e0e0e0;
+}
+
+.display-label-modal {
+    font-family: Poppins-Regular, sans-serif;
+    font-weight: bold;
+    margin: 0.5em 0;
+    float: left;
+    color: #262626;
+}
+
+.sidebar-menu {
+    font-weight: bold;
 }
