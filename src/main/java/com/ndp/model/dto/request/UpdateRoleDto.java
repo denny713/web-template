@@ -10,7 +10,7 @@ import java.util.UUID;
 @Setter
 public class UpdateRoleDto {
 
-    private UUID id;
+    private UUID roleId;
     private String name;
     private String description;
     private List<RoleMappingDto> roleMapping;

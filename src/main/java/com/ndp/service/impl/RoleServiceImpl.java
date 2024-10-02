@@ -16,7 +16,6 @@ import com.ndp.model.entity.RoleMapping;
 import com.ndp.repository.MenuRepository;
 import com.ndp.repository.RoleMappingRepository;
 import com.ndp.repository.RoleRepository;
-import com.ndp.repository.UserRepository;
 import com.ndp.repository.dao.RoleDao;
 import com.ndp.service.RoleService;
 import lombok.AllArgsConstructor;
@@ -32,7 +31,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -138,7 +136,7 @@ public class RoleServiceImpl implements RoleService {
     @Transactional
     public ResponseDto updateRole(UpdateRoleDto dto) {
         dto.setDescription(StringUtils.isEmpty(dto.getDescription()) ? "-" : dto.getDescription());
-        if (dto.getId() == null) {
+        if (dto.getRoleId() == null) {
             throw new BadRequestException("Role ID cannot be null or empty");
         }
 
@@ -146,7 +144,7 @@ public class RoleServiceImpl implements RoleService {
             throw new BadRequestException("Role name cannot be null or empty");
         }
 
-        Role role = roleRepository.findById(dto.getId()).orElse(null);
+        Role role = roleRepository.findById(dto.getRoleId()).orElse(null);
         if (role == null) {
             throw new NotFoundException("Role detail not found");
         }
@@ -154,7 +152,7 @@ public class RoleServiceImpl implements RoleService {
         role.setName(dto.getName());
         role.setDescription(dto.getDescription());
 
-        List<RoleMapping> existingRoleMaps = roleMappingRepository.findByRoleId(dto.getId());
+        List<RoleMapping> existingRoleMaps = roleMappingRepository.findByRoleId(dto.getRoleId());
         if (!existingRoleMaps.isEmpty()) {
             roleMappingRepository.deleteAll(existingRoleMaps);
         }
@@ -181,6 +179,24 @@ public class RoleServiceImpl implements RoleService {
 
         roleRepository.save(role);
         roleMappingRepository.saveAll(roleMappings);
-        return new ResponseDto(201, SUCCESS, role);
+        return new ResponseDto(200, SUCCESS, role);
+    }
+
+    @Override
+    @Transactional
+    public ResponseDto deleteRole(UpdateRoleDto dto) {
+        if (dto.getRoleId() == null) {
+            throw new BadRequestException("Role ID cannot be null or empty");
+        }
+
+        Role role = roleRepository.findById(dto.getRoleId()).orElse(null);
+        if (role == null) {
+            throw new NotFoundException("Role detail not found");
+        }
+
+        role.setDeleted(true);
+        roleRepository.save(role);
+
+        return new ResponseDto(200, SUCCESS, null);
     }
 }

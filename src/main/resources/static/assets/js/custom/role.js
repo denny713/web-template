@@ -18,7 +18,7 @@ function searchRole() {
         let active = data.data[x].active;
         let status = active ? "Active" : "Non Active";
 
-        let modifyAction = '<button type="button" data-bs-toggle="modal" data-bs-target="#userDetail"  class="btn btn-primary btn-icon" ' +
+        let modifyAction = '<button type="button" data-bs-toggle="modal" data-bs-target="#roleDetail"  class="btn btn-primary btn-icon" ' +
             'onClick="editRole(\'' + data.data[x].id + '\',\'' + data.data[x].name + '\',\'' + data.data[x].description + '\')">' +
             '                <i class="fas fa-edit"></i> Edit' +
             '            </button>';
@@ -45,13 +45,25 @@ function saveRole() {
 }
 
 function addRole() {
-    alert("Add");
+    $("#id-modal").val("");
+    $("#name-modal").val("");
+    $("#desc-modal").val("");
 }
 
 function editRole(id, name, description) {
-    alert("Edit");
+    $("#id-modal").val(id);
+    $("#name-modal").val(name);
+    $("#desc-modal").val(description);
 }
 
 function deleteRole(id, name) {
-    alert("Delete");
+    confirm("/api/role/delete", "Are you sure want to delete this role: " + name + " ?", roleReq(id), function () {
+        pageReload();
+    });
+}
+
+function roleReq(id){
+    let request = {};
+    request["roleId"] = id
+    return request;
 }

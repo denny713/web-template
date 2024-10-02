@@ -17,4 +17,6 @@ public interface RoleService {
     ResponseDto getAllRolesToOptions();
 
     ResponseDto updateRole(UpdateRoleDto dto);
+
+    ResponseDto deleteRole(UpdateRoleDto dto);
 }

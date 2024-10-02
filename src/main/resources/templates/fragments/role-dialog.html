@@ -2,16 +2,16 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <script src="/assets/js/custom/user.js"></script>
+    <script src="/assets/js/custom/role.js"></script>
 </head>
 <body>
 <div class="modal fade"
-     id="userDetail" data-bs-backdrop="static" data-bs-keyboard="false"
-     tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+     id="roleDetail" data-bs-backdrop="static" data-bs-keyboard="false"
+     tabindex="-1" aria-labelledby="roleBackdrop" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title fs-5" id="staticBackdropLabel">User Detail</h1>
+                <h1 class="modal-title fs-5" id="roleBackdrop">User Detail</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -30,47 +30,8 @@
                             <label class="display-label-modal" for="desc-modal">Description</label>
                         </div>
                         <div class="col-sm-8">
-                            <input id="desc-modal" name="desc-modal" placeholder="Email"
+                            <input id="desc-modal" name="desc-modal" placeholder="Description"
                                    class="form-control"/>
-                        </div>
-                    </div>
-                    <div class="row form-group">
-                        <div class="col-sm-4">
-                            <label class="display-label-modal" for="menu-modal">Menu Access</label>
-                        </div>
-                        <div class="col-sm-8">
-                            <select id="menu-modal" name="menu-modal" class="form-select"></select>
-                        </div>
-                    </div>
-                    <div class="row form-group">
-                        <div class="col-sm-4">
-                            <label class="display-label-modal">Permission</label>
-                        </div>
-                        <div class="col-sm-8">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="" id="viewCheck">
-                                <label class="form-check-label" for="viewCheck">
-                                    View
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="" id="createCheck">
-                                <label class="form-check-label" for="createCheck">
-                                    Create
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="" id="deleteCheck">
-                                <label class="form-check-label" for="deleteCheck">
-                                    Delete
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="" id="editCheck">
-                                <label class="form-check-label" for="editCheck">
-                                    Edit
-                                </label>
-                            </div>
                         </div>
                     </div>
                 </div>

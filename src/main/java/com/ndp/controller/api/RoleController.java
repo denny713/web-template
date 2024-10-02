@@ -40,4 +40,9 @@ public class RoleController {
     public ResponseEntity<ResponseDto> updateRole(@Valid @RequestBody UpdateRoleDto dto) {
         return ResponseEntity.ok(roleService.updateRole(dto));
     }
+
+    @PostMapping("/delete")
+    public ResponseEntity<ResponseDto> deleteRole(@Valid @RequestBody UpdateRoleDto dto) {
+        return ResponseEntity.ok(roleService.deleteRole(dto));
+    }
 }
