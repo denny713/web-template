@@ -243,6 +243,14 @@ table.dataTable thead tr {
     color: #e0e0e0;
 }
 
+.display-label-modal {
+    font-family: Poppins-Regular, sans-serif;
+    font-weight: bold;
+    margin: 0.5em 0;
+    float: left;
+    color: #262626;
+}
+
 .sidebar-menu {
     font-weight: bold;
 }

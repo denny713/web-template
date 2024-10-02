@@ -3,9 +3,11 @@ package com.ndp.controller.api;
 import com.ndp.model.dto.request.RegisterUserDto;
 import com.ndp.model.dto.request.SearchUserDto;
 import com.ndp.model.dto.request.UpdatePassUserDto;
+import com.ndp.model.dto.request.UpdateUserDto;
 import com.ndp.model.dto.response.PageResponseDto;
 import com.ndp.model.dto.response.ResponseDto;
 import com.ndp.service.UserService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -21,9 +23,19 @@ public class UserController {
 
     private final UserService userService;
 
+    @PostMapping("/me")
+    public ResponseEntity<ResponseDto> getProfile(HttpServletRequest request) {
+        return ResponseEntity.ok(userService.getProfile(request));
+    }
+
     @PostMapping("/register")
     public ResponseEntity<ResponseDto> registerUser(@Valid @RequestBody RegisterUserDto dto) {
         return ResponseEntity.ok(userService.registerUser(dto));
+    }
+
+    @PostMapping("/update")
+    public ResponseEntity<ResponseDto> updateUser(@Valid @RequestBody UpdateUserDto dto) {
+        return ResponseEntity.ok(userService.updateUser(dto));
     }
 
     @PostMapping("/password/reset")

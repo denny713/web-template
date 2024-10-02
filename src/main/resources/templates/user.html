@@ -5,6 +5,13 @@
 <head>
     <meta charset="UTF-8">
     <script src="/assets/js/custom/user.js"></script>
+    <script src="/assets/js/components/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            fillRoles();
+            searchUsers();
+        });
+    </script>
 </head>
 <body>
 <div layout:fragment="content">
@@ -39,12 +46,17 @@
                                 <label class="display-label" for="role">Role</label>
                             </div>
                             <div class="col-sm-4">
-                                <input id="role" name="role" placeholder="Role" class="form-control"/>
+                                <select id="role" name="role" class="form-select"></select>
                             </div>
                         </div>
                     </div>
                     <br>
                     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <button class="btn btn-danger btn-sm btn-fix" type="button"
+                                data-bs-toggle="modal" data-bs-target="#userDetail">
+                            <i class="fas fa-add"></i>
+                            Add
+                        </button>
                         <button class="btn btn-primary btn-sm btn-fix" type="button"
                                 onclick="searchUsers();return false;">
                             <i class="fas fa-search"></i>
@@ -72,13 +84,8 @@
                 </div>
             </div>
         </div>
+        <div th:replace="~{fragments/user-dialog}"></div>
     </form>
 </div>
-<script type="text/javascript">
-
-    $(document).ready(function () {
-        searchUsers();
-    });
-</script>
 </body>
 </html>

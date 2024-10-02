@@ -104,6 +104,7 @@ public class JwtService {
         result.put("name", user.getName());
         result.put("email", user.getEmail());
         result.put("role", user.getRole().getId());
+        result.put("needChangePass", user.isMustChangePassword());
         return result;
     }
 }

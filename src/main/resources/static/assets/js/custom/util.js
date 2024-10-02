@@ -87,10 +87,10 @@ function process(url, type, data, callback) {
         success: function (response) {
             let code = response["code"];
             let status = response["status"];
-            if (code !== 200) {
-                showNotice('error', "Failed", status);
-            } else {
+            if (code === 200 || code === 201) {
                 showNotice('success', "Success", status, callback);
+            } else {
+                showNotice('error', "Failed", status);
             }
         },
         error: function (jqXHR, textStatus, errorThrown) {
@@ -147,6 +147,26 @@ function get(url, request) {
         data = null;
     });
     return data;
+}
+
+function appendOptions(select, data, param) {
+    let initOpt = document.createElement("option");
+    if (data.data.length > 0) {
+        initOpt.setAttribute("value", "");
+        initOpt.innerHTML = "All";
+        select.appendChild(initOpt);
+    }
+    for (let x in data.data) {
+        let option = document.createElement("option");
+        option.setAttribute("value", data.data[x].key);
+        option.innerHTML = data.data[x].value;
+        if (param !== "" && param != null && param !== "-") {
+            if (param === data.data[x].value) {
+                option.setAttribute("selected", "selected");
+            }
+        }
+        select.appendChild(option);
+    }
 }
 
 function hideLoading() {

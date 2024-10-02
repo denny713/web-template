@@ -6,6 +6,7 @@ import com.ndp.exception.ServiceException;
 import com.ndp.model.dto.request.RegisterUserDto;
 import com.ndp.model.dto.request.SearchUserDto;
 import com.ndp.model.dto.request.UpdatePassUserDto;
+import com.ndp.model.dto.request.UpdateUserDto;
 import com.ndp.model.dto.response.PageResponseDto;
 import com.ndp.model.dto.response.ResponseDto;
 import com.ndp.model.dto.response.UserResponseDto;
@@ -15,9 +16,12 @@ import com.ndp.repository.RoleRepository;
 import com.ndp.repository.UserRepository;
 import com.ndp.repository.dao.UserDao;
 import com.ndp.service.UserService;
+import com.ndp.token.JwtService;
 import com.ndp.util.AccountUtil;
 import com.ndp.util.EmailUtil;
 import com.ndp.util.EncryptUtil;
+import com.ndp.util.TokenUtil;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,9 +33,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @Slf4j
 @Service
@@ -40,11 +42,37 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
+    private final JwtService jwtService;
 
     @Value("${app.default-password}")
     private String defaultPassword;
 
     private static final String SUCCESS = "Success";
+
+    @Override
+    public ResponseDto getProfile(HttpServletRequest request) {
+        String token = TokenUtil.getToken(request);
+        if (StringUtils.isEmpty(token)) {
+            throw new NotFoundException("No JWT token found in request headers or cookies");
+        }
+
+        User user = userRepository.findByUsername(jwtService.getUsername(token)).orElse(null);
+        if (user == null) {
+            throw new NotFoundException("Profile detail not found");
+        }
+
+        return new ResponseDto(200, SUCCESS, new UserResponseDto(
+                user.getId(),
+                user.getUsername(),
+                user.getName(),
+                user.getEmail(),
+                user.getRole().getName(),
+                user.getRole().getDescription(),
+                user.isActive(),
+                user.getCreatedDate(),
+                user.getUpdatedDate()
+        ));
+    }
 
     @Override
     public ResponseDto registerUser(RegisterUserDto dto) {
@@ -81,16 +109,44 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public ResponseDto updateUser(UpdateUserDto dto) {
+        if (dto.getUserId() == null) {
+            throw new BadRequestException("User ID cannot be null or empty");
+        }
+
+        if (StringUtils.isEmpty(dto.getUsername())) {
+            throw new BadRequestException("Username cannot be null or empty");
+        }
+
+        if (StringUtils.isEmpty(dto.getName())) {
+            throw new BadRequestException("Name cannot be null or empty");
+        }
+
+        if (StringUtils.isNotEmpty(dto.getEmail()) && !EmailUtil.isValidEmail(dto.getEmail())) {
+            throw new BadRequestException("Invalid email format");
+        }
+
+        if (dto.getRoleId() == null) {
+            throw new BadRequestException("Role ID cannot be null or empty");
+        }
+
+        User user = getById(dto.getUserId());
+        user.setUsername(dto.getUsername());
+        user.setName(dto.getName());
+        user.setEmail(dto.getEmail());
+        user.setRole(roleRepository.findById(dto.getRoleId()).orElse(null));
+        user = userRepository.save(user);
+
+        return new ResponseDto(200, SUCCESS, user);
+    }
+
+    @Override
     public ResponseDto resetPass(UpdatePassUserDto dto) {
         if (dto.getUserId() == null) {
             throw new BadRequestException("User ID cannot be null or empty");
         }
 
-        User user = userRepository.findById(dto.getUserId()).orElse(null);
-        if (user == null) {
-            throw new NotFoundException("User detail not found");
-        }
-
+        User user = getById(dto.getUserId());
         user.setPassword(EncryptUtil.encrypt(defaultPassword));
         user.setMustChangePassword(true);
         user = userRepository.save(user);
@@ -116,11 +172,7 @@ public class UserServiceImpl implements UserService {
             throw new BadRequestException("New password cannot be same than old password");
         }
 
-        User user = userRepository.findById(dto.getUserId()).orElse(null);
-        if (user == null) {
-            throw new NotFoundException("User detail not found");
-        }
-
+        User user = getById(dto.getUserId());
         if (!Objects.equals(EncryptUtil.encrypt(dto.getOldPassword()), user.getPassword())) {
             throw new BadRequestException("Invalid old password");
         }
@@ -138,11 +190,7 @@ public class UserServiceImpl implements UserService {
             throw new BadRequestException("User ID cannot be null or empty");
         }
 
-        User user = userRepository.findById(dto.getUserId()).orElse(null);
-        if (user == null) {
-            throw new NotFoundException("User detail not found");
-        }
-
+        User user = getById(dto.getUserId());
         user.setDeleted(true);
         userRepository.save(user);
 
@@ -155,11 +203,7 @@ public class UserServiceImpl implements UserService {
             throw new BadRequestException("User ID cannot be null or empty");
         }
 
-        User user = userRepository.findById(dto.getUserId()).orElse(null);
-        if (user == null) {
-            throw new NotFoundException("User detail not found");
-        }
-
+        User user = getById(dto.getUserId());
         user.setActive(!isActive);
         userRepository.save(user);
 
@@ -202,5 +246,14 @@ public class UserServiceImpl implements UserService {
             log.error(e.getMessage());
             throw new ServiceException(e.getMessage());
         }
+    }
+
+    private User getById(UUID id) {
+        Optional<User> user = userRepository.findById(id);
+        if (user.isEmpty()) {
+            throw new NotFoundException("User detail not found");
+        }
+
+        return user.get();
     }
 }

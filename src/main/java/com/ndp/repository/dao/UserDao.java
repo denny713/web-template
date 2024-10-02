@@ -10,6 +10,7 @@ import org.springframework.data.jpa.domain.Specification;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class UserDao extends CommonDao {
 
@@ -26,10 +27,11 @@ public class UserDao extends CommonDao {
             add(predicates, like(dto.getUsername(), "username", root, cb));
             add(predicates, like(dto.getName(), "name", root, cb));
             add(predicates, like(dto.getEmail(), "email", root, cb));
-            add(predicates, like(dto.getRole(), "name", root.join("role", JoinType.LEFT), cb));
+            add(predicates, equals(dto.getRole(), "description", root.join("role", JoinType.LEFT), cb));
 
             if (dto.getActive() != null) {
-                add(predicates, dto.getActive() ? isTrue("active", root, cb) : isFalse("active", root, cb));
+                add(predicates, Boolean.TRUE.equals(dto.getActive()) ? isTrue("active", root, cb)
+                        : isFalse("active", root, cb));
             }
 
             return cb.and(predicates.toArray(new Predicate[0]));

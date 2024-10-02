@@ -8,4 +8,6 @@ import jakarta.transaction.Transactional;
 public interface RoleService {
 
     ResponseDto registerRole(RegisterRoleDto dto);
+
+    ResponseDto getAllRolesToOptions();
 }
