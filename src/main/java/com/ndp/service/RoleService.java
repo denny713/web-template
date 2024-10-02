@@ -19,4 +19,6 @@ public interface RoleService {
     ResponseDto updateRole(UpdateRoleDto dto);
 
     ResponseDto deleteRole(UpdateRoleDto dto);
+
+    ResponseDto updateRoleStatus(UpdateRoleDto dto,boolean active);
 }

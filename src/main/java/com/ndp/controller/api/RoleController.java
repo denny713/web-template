@@ -45,4 +45,14 @@ public class RoleController {
     public ResponseEntity<ResponseDto> deleteRole(@Valid @RequestBody UpdateRoleDto dto) {
         return ResponseEntity.ok(roleService.deleteRole(dto));
     }
+
+    @PostMapping("/reactivate")
+    public ResponseEntity<ResponseDto> reactivateRole(@Valid @RequestBody UpdateRoleDto dto) {
+        return ResponseEntity.ok(roleService.updateRoleStatus(dto, false));
+    }
+
+    @PostMapping("/deactivate")
+    public ResponseEntity<ResponseDto> deactivateRole(@Valid @RequestBody UpdateRoleDto dto) {
+        return ResponseEntity.ok(roleService.updateRoleStatus(dto, true));
+    }
 }

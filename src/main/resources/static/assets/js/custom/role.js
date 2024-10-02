@@ -25,8 +25,15 @@ function searchRole() {
         let deleteAction = '<button type="button" onClick="deleteRole(\'' + data.data[x].id + '\',\'' + data.data[x].name + '\')" class="btn btn-danger btn-icon">' +
             '                <i class="fas fa-trash"></i> Delete' +
             '            </button>';
+        let deactiveAction = '<button type="button" onClick="roleDeactive(\'' + data.data[x].id + '\',\'' + data.data[x].name + '\')" class="btn btn-secondary btn-icon">' +
+            '                <i class="fas fa-ban"></i> Deactivate' +
+            '            </button>';
+        let reactiveAction = '<button type="button" onClick="roleReactive(\'' + data.data[x].id + '\',\'' + data.data[x].name + '\')" class="btn btn-success btn-icon">' +
+            '                <i class="fas fa-redo"></i> Reactivate' +
+            '            </button>';
+        let updStatAction = active ? deactiveAction : reactiveAction;
 
-        let actions = modifyAction + " | " + deleteAction;
+        let actions = modifyAction + " | " + updStatAction + " | " + deleteAction;
 
         xtable.row.add([
             no,
@@ -62,7 +69,19 @@ function deleteRole(id, name) {
     });
 }
 
-function roleReq(id){
+function roleReactive(id, name) {
+    confirm("/api/role/reactivate", "Are you sure want to reactivate this role: " + name + " ?", roleReq(id), function () {
+        pageReload();
+    });
+}
+
+function roleDeactive(id, name) {
+    confirm("/api/role/deactivate", "Are you sure want to deactivate this role: " + name + " ?", roleReq(id), function () {
+        pageReload();
+    });
+}
+
+function roleReq(id) {
     let request = {};
     request["roleId"] = id
     return request;

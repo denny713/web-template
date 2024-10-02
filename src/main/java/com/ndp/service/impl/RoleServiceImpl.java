@@ -13,6 +13,7 @@ import com.ndp.model.dto.response.RoleResponseDto;
 import com.ndp.model.entity.Menu;
 import com.ndp.model.entity.Role;
 import com.ndp.model.entity.RoleMapping;
+import com.ndp.model.entity.User;
 import com.ndp.repository.MenuRepository;
 import com.ndp.repository.RoleMappingRepository;
 import com.ndp.repository.RoleRepository;
@@ -27,10 +28,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Slf4j
 @Service
@@ -144,11 +142,7 @@ public class RoleServiceImpl implements RoleService {
             throw new BadRequestException("Role name cannot be null or empty");
         }
 
-        Role role = roleRepository.findById(dto.getRoleId()).orElse(null);
-        if (role == null) {
-            throw new NotFoundException("Role detail not found");
-        }
-
+        Role role = getById(dto.getRoleId());
         role.setName(dto.getName());
         role.setDescription(dto.getDescription());
 
@@ -189,14 +183,33 @@ public class RoleServiceImpl implements RoleService {
             throw new BadRequestException("Role ID cannot be null or empty");
         }
 
-        Role role = roleRepository.findById(dto.getRoleId()).orElse(null);
-        if (role == null) {
-            throw new NotFoundException("Role detail not found");
-        }
-
+        Role role = getById(dto.getRoleId());
         role.setDeleted(true);
         roleRepository.save(role);
 
         return new ResponseDto(200, SUCCESS, null);
+    }
+
+    @Override
+    @Transactional
+    public ResponseDto updateRoleStatus(UpdateRoleDto dto, boolean active) {
+        if (dto.getRoleId() == null) {
+            throw new BadRequestException("Role ID cannot be null or empty");
+        }
+
+        Role role = getById(dto.getRoleId());
+        role.setActive(!active);
+        roleRepository.save(role);
+
+        return new ResponseDto(200, SUCCESS, null);
+    }
+
+    private Role getById(UUID id) {
+        Optional<Role> role = roleRepository.findById(id);
+        if (role.isEmpty()) {
+            throw new NotFoundException("Role detail not found");
+        }
+
+        return role.get();
     }
 }
