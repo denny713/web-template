@@ -1,4 +1,5 @@
 function saveUser() {
+    let userId = $("#id-modal").val();
     let username = $("#username-modal").val();
     let name = $("#name-modal").val();
     let email = $("#email-modal").val();
@@ -21,9 +22,16 @@ function saveUser() {
         request["email"] = email;
         request["roleId"] = role;
 
-        confirm("/api/user/register", "Are you sure want to register this user: " + username + " ?", request, function () {
-            pageReload();
-        });
+        if (userId === "" || userId == null) {
+            confirm("/api/user/register", "Are you sure want to register this user: " + username + " ?", request, function () {
+                pageReload();
+            });
+        } else {
+            request["userId"] = userId;
+            confirm("/api/user/update", "Are you sure want to update this user: " + username + " ?", request, function () {
+                pageReload();
+            });
+        }
     }
 }
 
@@ -72,7 +80,8 @@ function searchUsers() {
         let active = data.data[x].active;
         let status = active ? "Active" : "Non Active";
 
-        let modifyAction = '<button type="button" data-bs-toggle="modal" data-bs-target="#userDetail" class="btn btn-primary btn-icon">' +
+        let modifyAction = '<button type="button" data-bs-toggle="modal" data-bs-target="#userDetail"  class="btn btn-primary btn-icon" ' +
+            'onClick="edit(\'' + data.data[x].id + '\',\'' + data.data[x].username + '\',\'' + data.data[x].name + '\',\'' + data.data[x].email + '\',\'' + data.data[x].role + '\')">' +
             '                <i class="fas fa-edit"></i> Edit' +
             '            </button>';
         let deactiveAction = '<button type="button" onClick="deactive(\'' + data.data[x].id + '\',\'' + data.data[x].username + '\')" class="btn btn-secondary btn-icon">' +
@@ -127,6 +136,22 @@ function deactive(id, username) {
     confirm("/api/user/deactivate", "Are you sure want to deactivate this user: " + username + " ?", generateRequest(id), function () {
         pageReload();
     });
+}
+
+function edit(id, username, name, email, role) {
+    $("#id-modal").val(id);
+    $("#username-modal").val(username);
+    $("#name-modal").val(name);
+    $("#email-modal").val(email);
+    fillRolesModal(role);
+}
+
+function addNew() {
+    $("#id-modal").val("");
+    $("#username-modal").val("");
+    $("#name-modal").val("");
+    $("#email-modal").val("");
+    fillRolesModal();
 }
 
 function generateRequest(id) {
