@@ -37,4 +37,14 @@ public class UserDao extends CommonDao {
             return cb.and(predicates.toArray(new Predicate[0]));
         };
     }
+
+    public Specification<User> buildFindByUsername(String username) {
+        return (root, cq, cb) -> {
+            List<Predicate> predicates = new ArrayList<>();
+            add(predicates, isTrue("active", root, cb));
+            add(predicates, isFalse("deleted", root, cb));
+            add(predicates, equals(username, "username", root, cb));
+            return cb.and(predicates.toArray(new Predicate[0]));
+        };
+    }
 }

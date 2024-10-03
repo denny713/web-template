@@ -97,6 +97,10 @@ public class JwtService {
         return extractClaim(token, Claims::getExpiration);
     }
 
+    public Object getFromExtraClaim(String token, String value) {
+        return extractClaim(token, claims -> claims.get(value));
+    }
+
     private Map<String, Object> extraClaims(UserDetails userDetails) {
         User user = (User) userDetails;
         Map<String, Object> result = new HashMap<>();

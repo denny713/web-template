@@ -24,12 +24,12 @@ function saveUser() {
 
         if (userId === "" || userId == null) {
             confirm("/api/user/register", "Are you sure want to register this user: " + username + " ?", request, function () {
-                pageReload();
+                reload();
             });
         } else {
             request["userId"] = userId;
             confirm("/api/user/update", "Are you sure want to update this user: " + username + " ?", request, function () {
-                pageReload();
+                reload();
             });
         }
     }
@@ -116,25 +116,25 @@ function searchUsers() {
 
 function resetPass(id, username) {
     confirm("/api/user/password/reset", "Are you sure want to reset password this user: " + username + " ?", generateRequest(id), function () {
-        pageReload();
+        reload();
     });
 }
 
 function deleteUser(id, username) {
     confirm("/api/user/delete", "Are you sure want to delete this user: " + username + " ?", generateRequest(id), function () {
-        pageReload();
+        reload();
     });
 }
 
 function reactive(id, username) {
     confirm("/api/user/reactivate", "Are you sure want to reactivate this user: " + username + " ?", generateRequest(id), function () {
-        pageReload();
+        reload();
     });
 }
 
 function deactive(id, username) {
     confirm("/api/user/deactivate", "Are you sure want to deactivate this user: " + username + " ?", generateRequest(id), function () {
-        pageReload();
+        reload();
     });
 }
 

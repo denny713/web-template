@@ -98,12 +98,12 @@ function saveRole() {
 
         if (roleId === "" || roleId == null) {
             confirm("/api/role/register", "Are you sure want to register this role: " + roleName + " ?", request, function () {
-                pageReload();
+                reload();
             });
         } else {
             request["roleId"] = roleId;
             confirm("/api/role/update", "Are you sure want to update this role: " + roleName + " ?", request, function () {
-                pageReload();
+                reload();
             });
         }
     }
@@ -202,19 +202,19 @@ function clearTableOnModal() {
 
 function deleteRole(id, name) {
     confirm("/api/role/delete", "Are you sure want to delete this role: " + name + " ?", roleReq(id), function () {
-        pageReload();
+        reload();
     });
 }
 
 function roleReactive(id, name) {
     confirm("/api/role/reactivate", "Are you sure want to reactivate this role: " + name + " ?", roleReq(id), function () {
-        pageReload();
+        reload();
     });
 }
 
 function roleDeactive(id, name) {
     confirm("/api/role/deactivate", "Are you sure want to deactivate this role: " + name + " ?", roleReq(id), function () {
-        pageReload();
+        reload();
     });
 }
 

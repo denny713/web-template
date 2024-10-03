@@ -3,7 +3,15 @@ function redirect(url) {
 }
 
 function reload() {
-    window.location.reload();
+    location.reload();
+}
+
+function hideLoading() {
+    $("#loading").modal("hide");
+}
+
+function showLoading() {
+    $("#loading").modal("show");
 }
 
 function showNotice(type, title, message, callback) {
@@ -22,7 +30,7 @@ function showNotice(type, title, message, callback) {
     });
 }
 
-function processAuth(url, type, data, callback) {
+function processAuth(url, type, data) {
     $.ajax({
         url: url,
         type: type,
@@ -38,7 +46,7 @@ function processAuth(url, type, data, callback) {
             if (code !== 200) {
                 showNotice('error', "Failed", status);
             } else {
-                callback(this.success);
+                redirect("/dashboard");
             }
         },
         error: function (jqXHR, textStatus, errorThrown) {
@@ -167,18 +175,6 @@ function appendOptions(select, data, param) {
         }
         select.appendChild(option);
     }
-}
-
-function hideLoading() {
-    $("#loading").modal("hide");
-}
-
-function showLoading() {
-    $("#loading").modal("show");
-}
-
-function pageReload() {
-    location.reload();
 }
 
 function getCookie(name) {
