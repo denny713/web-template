@@ -4,11 +4,38 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
     <meta charset="UTF-8">
-    <script src="/assets/js/custom/user.js"></script>
     <script src="/assets/js/components/jquery.min.js"></script>
+    <script src="/assets/js/custom/user.js"></script>
+    <script src="/assets/js/custom/auth.js"></script>
     <script>
         $(document).ready(function () {
             fillProfile();
+        });
+
+        document.addEventListener('DOMContentLoaded', function () {
+            let currPassIcon = document.getElementById("currPassModal");
+            let currPassText = document.getElementById("current-pass-modal");
+            currPassIcon.addEventListener('click', function () {
+                togglePassword(currPassText, this);
+            });
+
+            let newPassIcon = document.getElementById("newPassModal");
+            let newPassText = document.getElementById("new-pass-modal");
+            newPassIcon.addEventListener('click', function () {
+                togglePassword(newPassText, this);
+            });
+
+            let confPassIcon = document.getElementById("confPassModal");
+            let confPassText = document.getElementById("confirm-pass-modal");
+            confPassIcon.addEventListener('click', function () {
+                togglePassword(confPassText, this);
+            });
+
+            function togglePassword(input, icon) {
+                const type = input.getAttribute('type') === 'password' ? 'text' : 'password';
+                input.setAttribute('type', type);
+                icon.classList.toggle('fa-eye-slash');
+            }
         });
     </script>
 </head>
@@ -25,7 +52,8 @@
                                 <label class="display-label" for="username-profile">Username</label>
                             </div>
                             <div class="col-sm-4">
-                                <input id="username-profile" name="username-profile" class="form-control" disabled="disabled"/>
+                                <input id="username-profile" name="username-profile" class="form-control"
+                                       disabled="disabled"/>
                             </div>
                         </div>
                         <div class="row form-group">
@@ -41,7 +69,8 @@
                                 <label class="display-label" for="email-profile">Email</label>
                             </div>
                             <div class="col-sm-4">
-                                <input id="email-profile" name="email-profile" class="form-control" disabled="disabled"/>
+                                <input id="email-profile" name="email-profile" class="form-control"
+                                       disabled="disabled"/>
                             </div>
                         </div>
                         <div class="row form-group">
@@ -69,9 +98,18 @@
                             </div>
                         </div>
                     </div>
+                    <br>
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <button class="btn btn-danger btn-sm btn-fix" type="button" onclick="changePassExecute()"
+                                data-bs-toggle="modal" data-bs-target="#passDetail">
+                            <i class="fas fa-key"></i>
+                            Change Password
+                        </button>
+                    </div>
                 </fieldset>
             </div>
         </div>
+        <div th:replace="~{fragments/change-pass-dialog}"></div>
     </form>
 </div>
 </body>

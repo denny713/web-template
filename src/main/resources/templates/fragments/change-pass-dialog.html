@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="/assets/js/custom/auth.js"></script>
+</head>
+<body>
+<div class="modal fade"
+     id="passDetail" data-bs-backdrop="static" data-bs-keyboard="false"
+     tabindex="-1" aria-labelledby="passBackdrop" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="passBackdrop">Change Password</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="col-xs-12">
+                    <div class="row form-group">
+                        <div class="col-sm-6">
+                            <label class="display-label-modal" for="current-pass-modal">Current Password</label>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="input-group">
+                                <input type="password" id="current-pass-modal" name="current-pass-modal"
+                                       class="form-control"/>
+                                <span class="input-group-text change-pass-icon">
+                                    <i class="fas fa-eye" id="currPassModal" style="cursor: pointer;"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-12">
+                    <div class="row form-group">
+                        <div class="col-sm-6">
+                            <label class="display-label-modal" for="new-pass-modal">New Password</label>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="input-group">
+                                <input type="password" id="new-pass-modal" name="new-pass-modal" class="form-control"/>
+                                <span class="input-group-text change-pass-icon">
+                                    <i class="fas fa-eye" id="newPassModal" style="cursor: pointer;"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-12">
+                    <div class="row form-group">
+                        <div class="col-sm-6">
+                            <label class="display-label-modal" for="confirm-pass-modal">Confirmation Password</label>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="input-group">
+                                <input type="password" id="confirm-pass-modal" name="confirm-pass-modal"
+                                       class="form-control"/>
+                                <span class="input-group-text change-pass-icon">
+                                    <i class="fas fa-eye" id="confPassModal" style="cursor: pointer;"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <input type="hidden" id="username-modal" name="username-modal"/>
+                <button type="button" class="btn btn-danger btn-sm btn-fix" data-bs-dismiss="modal">
+                    <i class="fas fa-cancel"></i>
+                    Cancel
+                </button>
+                <button class="btn btn-primary btn-sm btn-fix" type="button"
+                        onclick="doChangePassFromProfile()">
+                    <i class="fas fa-save"></i>
+                    Save
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
