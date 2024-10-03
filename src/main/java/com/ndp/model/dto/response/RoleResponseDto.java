@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 @Getter
@@ -20,4 +21,5 @@ public class RoleResponseDto {
     private boolean active;
     private Date createdDate;
     private Date updatedDate;
+    private List<RoleMappingResponseDto> roleMapping;
 }

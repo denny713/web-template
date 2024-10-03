@@ -26,6 +26,11 @@ public class RoleController {
         return ResponseEntity.ok(roleService.searchRole(dto));
     }
 
+    @PostMapping("/detail")
+    public ResponseEntity<ResponseDto> roleDetail(@RequestBody @Valid UpdateRoleDto dto) {
+        return ResponseEntity.ok(roleService.roleDetail(dto.getRoleId()));
+    }
+
     @PostMapping("/register")
     public ResponseEntity<ResponseDto> registerRole(@Valid @RequestBody RegisterRoleDto dto) {
         return ResponseEntity.ok(roleService.registerRole(dto));

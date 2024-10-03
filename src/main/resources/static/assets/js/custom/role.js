@@ -19,7 +19,7 @@ function searchRole() {
         let status = active ? "Active" : "Non Active";
 
         let modifyAction = '<button type="button" data-bs-toggle="modal" data-bs-target="#roleDetail"  class="btn btn-primary btn-icon" ' +
-            'onClick="editRole(\'' + data.data[x].id + '\',\'' + data.data[x].name + '\',\'' + data.data[x].description + '\')">' +
+            'onClick="editRole(\'' + data.data[x].id + '\')">' +
             '                <i class="fas fa-edit"></i> Edit' +
             '            </button>';
         let deleteAction = '<button type="button" onClick="deleteRole(\'' + data.data[x].id + '\',\'' + data.data[x].name + '\')" class="btn btn-danger btn-icon">' +
@@ -49,6 +49,7 @@ function searchRole() {
 
 function saveRole() {
     let foundDuplicate = false;
+    let noChooseMenu = false;
     let roleId = $("#id-modal").val();
     let roleName = $("#name-modal").val();
     let roleDesc = $("#desc-modal").val();
@@ -62,6 +63,11 @@ function saveRole() {
     for (let x = 0; x <= size; x++) {
         try {
             let menu = $("#opt-map-" + x).val();
+            if (menu === "") {
+                noChooseMenu = true;
+                break;
+            }
+
             if (listMenu.includes(menu)) {
                 foundDuplicate = true;
                 break;
@@ -80,7 +86,9 @@ function saveRole() {
         }
     }
 
-    if (foundDuplicate) {
+    if (noChooseMenu) {
+        showNotice('warning', "Warning", "Please choose menu to mapping");
+    } else if (foundDuplicate) {
         showNotice('warning', "Warning", "There are duplicate mapping menus, please select one");
     } else {
         let request = {};
@@ -109,12 +117,77 @@ function addRole() {
     $("#no-modal").val("");
 }
 
-function editRole(id, name, description) {
+function editRole(id) {
     clearTableOnModal();
+    let listMenu = get("/api/menu/options");
+    let data = get("/api/role/detail", roleReq(id));
+    let dataSize = data.data.roleMapping.length;
+
     $("#id-modal").val(id);
-    $("#name-modal").val(name);
-    $("#desc-modal").val(description);
-    $("#no-modal").val("");
+    $("#name-modal").val(data.data.name);
+    $("#desc-modal").val(data.data.description);
+    $("#no-modal").val(dataSize);
+
+    let tableBody = document.querySelector('#permissionsTable tbody');
+    for (let x = 0; x < dataSize; x++) {
+        let dataMapping = data.data.roleMapping[x];
+        let newRow = document.createElement('tr');
+
+        let menuDropdown = document.createElement('select');
+        menuDropdown.setAttribute("class", "form-select");
+        menuDropdown.setAttribute("id", `opt-map-${x}`);
+
+        let viewCheckbox = document.createElement('input');
+        viewCheckbox.setAttribute("type", "checkbox");
+        viewCheckbox.setAttribute("id", `view-${x}`);
+        viewCheckbox.setAttribute("class", "form-check-input");
+        if (dataMapping.view) {
+            viewCheckbox.setAttribute("checked", "checked");
+        }
+
+        let createCheckbox = document.createElement('input');
+        createCheckbox.setAttribute("type", "checkbox");
+        createCheckbox.setAttribute("id", `create-${x}`);
+        createCheckbox.setAttribute("class", "form-check-input");
+        if (dataMapping.create) {
+            createCheckbox.setAttribute("checked", "checked");
+        }
+
+        let editCheckbox = document.createElement('input');
+        editCheckbox.setAttribute("type", "checkbox");
+        editCheckbox.setAttribute("id", `edit-${x}`);
+        editCheckbox.setAttribute("class", "form-check-input");
+        if (dataMapping.edit) {
+            editCheckbox.setAttribute("checked", "checked");
+        }
+
+        let deleteCheckbox = document.createElement('input');
+        deleteCheckbox.setAttribute("type", "checkbox");
+        deleteCheckbox.setAttribute("id", `delete-${x}`);
+        deleteCheckbox.setAttribute("class", "form-check-input");
+        if (dataMapping.delete) {
+            deleteCheckbox.setAttribute("checked", "checked");
+        }
+
+        let removeButton = document.createElement('button');
+        removeButton.setAttribute("type", "button");
+        removeButton.setAttribute("class", "btn btn-danger btn-sm removeRowBtn");
+        removeButton.innerHTML = `<i class="fas fa-remove"></i>`;
+
+        removeButton.addEventListener('click', function () {
+            tableBody.removeChild(newRow);
+        });
+
+        appendOptions(menuDropdown, listMenu, dataMapping.menuName);
+        newRow.appendChild(addCell(menuDropdown));
+        newRow.appendChild(addCell(viewCheckbox, 'text-center'));
+        newRow.appendChild(addCell(createCheckbox, 'text-center'));
+        newRow.appendChild(addCell(editCheckbox, 'text-center'));
+        newRow.appendChild(addCell(deleteCheckbox, 'text-center'));
+        newRow.appendChild(addCell(removeButton, 'text-center'));
+
+        tableBody.appendChild(newRow);
+    }
 }
 
 function clearTableOnModal() {
@@ -190,7 +263,6 @@ function addMappingValue() {
     let removeButton = document.createElement('button');
     removeButton.setAttribute("type", "button");
     removeButton.setAttribute("class", "btn btn-danger btn-sm removeRowBtn");
-    removeButton.setAttribute("onclick", `removeCell(${idx})`);
     removeButton.innerHTML = `<i class="fas fa-remove"></i>`;
 
     removeButton.addEventListener('click', function () {

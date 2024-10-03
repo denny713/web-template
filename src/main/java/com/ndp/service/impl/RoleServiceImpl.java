@@ -9,6 +9,7 @@ import com.ndp.model.dto.request.SearchRoleDto;
 import com.ndp.model.dto.request.UpdateRoleDto;
 import com.ndp.model.dto.response.PageResponseDto;
 import com.ndp.model.dto.response.ResponseDto;
+import com.ndp.model.dto.response.RoleMappingResponseDto;
 import com.ndp.model.dto.response.RoleResponseDto;
 import com.ndp.model.entity.Menu;
 import com.ndp.model.entity.Role;
@@ -59,14 +60,27 @@ public class RoleServiceImpl implements RoleService {
                     )
             );
 
-            roles.forEach(x -> results.add(new RoleResponseDto(
-                    x.getId(),
-                    x.getName(),
-                    x.getDescription(),
-                    x.isActive(),
-                    x.getCreatedDate(),
-                    x.getUpdatedDate()
-            )));
+            roles.forEach(x -> {
+                List<RoleMappingResponseDto> mappings = new ArrayList<>();
+                x.getRoleMapping().forEach(c -> mappings.add(new RoleMappingResponseDto(
+                        c.getMenu().getId(),
+                        c.getMenu().getName(),
+                        c.isViewAccess(),
+                        c.isCreateAccess(),
+                        c.isEditAccess(),
+                        c.isDeleteAccess()
+                )));
+
+                results.add(new RoleResponseDto(
+                        x.getId(),
+                        x.getName(),
+                        x.getDescription(),
+                        x.isActive(),
+                        x.getCreatedDate(),
+                        x.getUpdatedDate(),
+                        mappings
+                ));
+            });
 
             return new PageResponseDto(200, SUCCESS, results, roles.getNumber(),
                     roles.getSize(), roles.getTotalPages(), roles.getTotalElements());
@@ -74,6 +88,35 @@ public class RoleServiceImpl implements RoleService {
             log.error(e.getMessage());
             throw new ServiceException(e.getMessage());
         }
+    }
+
+    @Override
+    @Transactional
+    public ResponseDto roleDetail(UUID roleId) {
+        if (roleId == null) {
+            throw new BadRequestException("Role ID cannot be null or empty");
+        }
+
+        Role role = getById(roleId);
+        List<RoleMappingResponseDto> mappings = new ArrayList<>();
+        role.getRoleMapping().forEach(c -> mappings.add(new RoleMappingResponseDto(
+                c.getMenu().getId(),
+                c.getMenu().getName(),
+                c.isViewAccess(),
+                c.isCreateAccess(),
+                c.isEditAccess(),
+                c.isDeleteAccess()
+        )));
+
+        return new ResponseDto(200, SUCCESS, new RoleResponseDto(
+                role.getId(),
+                role.getName(),
+                role.getDescription(),
+                role.isActive(),
+                role.getCreatedDate(),
+                role.getUpdatedDate(),
+                mappings
+        ));
     }
 
     @Override
@@ -172,7 +215,7 @@ public class RoleServiceImpl implements RoleService {
 
         roleRepository.save(role);
         roleMappingRepository.saveAll(roleMappings);
-        return new ResponseDto(200, SUCCESS, role);
+        return new ResponseDto(200, SUCCESS, null);
     }
 
     @Override
