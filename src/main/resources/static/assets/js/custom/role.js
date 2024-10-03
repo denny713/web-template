@@ -48,19 +48,83 @@ function searchRole() {
 }
 
 function saveRole() {
-    alert("Save");
+    let foundDuplicate = false;
+    let roleId = $("#id-modal").val();
+    let roleName = $("#name-modal").val();
+    let roleDesc = $("#desc-modal").val();
+    if (roleDesc === "" || roleDesc == null) {
+        roleDesc = "-";
+    }
+
+    let size = $("#no-modal").val();
+    let listMenu = [];
+    let listMap = [];
+    for (let x = 0; x <= size; x++) {
+        try {
+            let menu = $("#opt-map-" + x).val();
+            if (listMenu.includes(menu)) {
+                foundDuplicate = true;
+                break;
+            }
+
+            let req = {};
+            req["menuId"] = menu;
+            req["view"] = document.getElementById("view-" + x).checked;
+            req["create"] = document.getElementById("create-" + x).checked;
+            req["edit"] = document.getElementById("edit-" + x).checked;
+            req["delete"] = document.getElementById("delete-" + x).checked;
+            listMap.push(req);
+            listMenu.push(menu);
+        } catch (err) {
+            continue;
+        }
+    }
+
+    if (foundDuplicate) {
+        showNotice('warning', "Warning", "There are duplicate mapping menus, please select one");
+    } else {
+        let request = {};
+        request["name"] = roleName;
+        request["description"] = roleDesc;
+        request["roleMapping"] = listMap;
+
+        if (roleId === "" || roleId == null) {
+            confirm("/api/role/register", "Are you sure want to register this role: " + roleName + " ?", request, function () {
+                pageReload();
+            });
+        } else {
+            request["roleId"] = roleId;
+            confirm("/api/role/update", "Are you sure want to update this role: " + roleName + " ?", request, function () {
+                pageReload();
+            });
+        }
+    }
 }
 
 function addRole() {
+    clearTableOnModal();
     $("#id-modal").val("");
     $("#name-modal").val("");
     $("#desc-modal").val("");
+    $("#no-modal").val("");
 }
 
 function editRole(id, name, description) {
+    clearTableOnModal();
     $("#id-modal").val(id);
     $("#name-modal").val(name);
     $("#desc-modal").val(description);
+    $("#no-modal").val("");
+}
+
+function clearTableOnModal() {
+    let tableBody = document.querySelector('#permissionsTable tbody');
+
+    while (tableBody.firstChild) {
+        tableBody.removeChild(tableBody.firstChild);
+    }
+
+    $("#no-modal").val(0);
 }
 
 function deleteRole(id, name) {
@@ -85,4 +149,72 @@ function roleReq(id) {
     let request = {};
     request["roleId"] = id
     return request;
+}
+
+function addMappingValue() {
+    let listMenu = get("/api/menu/options");
+    let idx = $("#no-modal").val();
+    if (idx === "" || idx == null) {
+        idx = 0;
+    } else {
+        idx++;
+    }
+
+    let tableBody = document.querySelector('#permissionsTable tbody');
+    let newRow = document.createElement('tr');
+
+    let menuDropdown = document.createElement('select');
+    menuDropdown.setAttribute("class", "form-select");
+    menuDropdown.setAttribute("id", `opt-map-${idx}`);
+
+    let viewCheckbox = document.createElement('input');
+    viewCheckbox.setAttribute("type", "checkbox");
+    viewCheckbox.setAttribute("id", `view-${idx}`);
+    viewCheckbox.setAttribute("class", "form-check-input");
+
+    let createCheckbox = document.createElement('input');
+    createCheckbox.setAttribute("type", "checkbox");
+    createCheckbox.setAttribute("id", `create-${idx}`);
+    createCheckbox.setAttribute("class", "form-check-input");
+
+    let editCheckbox = document.createElement('input');
+    editCheckbox.setAttribute("type", "checkbox");
+    editCheckbox.setAttribute("id", `edit-${idx}`);
+    editCheckbox.setAttribute("class", "form-check-input");
+
+    let deleteCheckbox = document.createElement('input');
+    deleteCheckbox.setAttribute("type", "checkbox");
+    deleteCheckbox.setAttribute("id", `delete-${idx}`);
+    deleteCheckbox.setAttribute("class", "form-check-input");
+
+    let removeButton = document.createElement('button');
+    removeButton.setAttribute("type", "button");
+    removeButton.setAttribute("class", "btn btn-danger btn-sm removeRowBtn");
+    removeButton.setAttribute("onclick", `removeCell(${idx})`);
+    removeButton.innerHTML = `<i class="fas fa-remove"></i>`;
+
+    removeButton.addEventListener('click', function () {
+        tableBody.removeChild(newRow);
+    });
+
+    appendOptions(menuDropdown, listMenu);
+    newRow.appendChild(addCell(menuDropdown));
+    newRow.appendChild(addCell(viewCheckbox, 'text-center'));
+    newRow.appendChild(addCell(createCheckbox, 'text-center'));
+    newRow.appendChild(addCell(editCheckbox, 'text-center'));
+    newRow.appendChild(addCell(deleteCheckbox, 'text-center'));
+    newRow.appendChild(addCell(removeButton, 'text-center'));
+
+    tableBody.appendChild(newRow);
+    $("#no-modal").val(idx);
+}
+
+function addCell(element, className = '') {
+    let td = document.createElement('td');
+    if (className) {
+        td.setAttribute('class', className);
+    }
+
+    td.appendChild(element);
+    return td;
 }

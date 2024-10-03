@@ -8,7 +8,7 @@
 <div class="modal fade"
      id="roleDetail" data-bs-backdrop="static" data-bs-keyboard="false"
      tabindex="-1" aria-labelledby="roleBackdrop" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-header">
                 <h1 class="modal-title fs-5" id="roleBackdrop">Role Detail</h1>
@@ -35,9 +35,29 @@
                         </div>
                     </div>
                 </div>
+                <br>
+                <div class="text-end mb-3">
+                    <button type="button" class="btn btn-success mb-3" onclick="addMappingValue()">
+                        <i class="fas fa-plus"></i> Add Role Mapping
+                    </button>
+                </div>
+                <table class="table table-bordered" id="permissionsTable">
+                    <thead>
+                    <tr>
+                        <th>Menu</th>
+                        <th>View</th>
+                        <th>Create</th>
+                        <th>Edit</th>
+                        <th>Delete</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
             </div>
             <div class="modal-footer">
                 <input type="hidden" id="id-modal" name="id-modal"/>
+                <input type="hidden" id="no-modal" name="no-modal"/>
                 <button type="button" class="btn btn-danger btn-sm btn-fix" data-bs-dismiss="modal">
                     <i class="fas fa-cancel"></i>
                     Cancel

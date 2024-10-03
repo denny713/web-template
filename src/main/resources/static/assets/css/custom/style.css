@@ -254,3 +254,7 @@ table.dataTable thead tr {
 .sidebar-menu {
     font-weight: bold;
 }
+
+#permissionsTable thead {
+    background-color: #f80606;
+}

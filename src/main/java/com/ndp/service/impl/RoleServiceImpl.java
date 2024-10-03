@@ -13,7 +13,6 @@ import com.ndp.model.dto.response.RoleResponseDto;
 import com.ndp.model.entity.Menu;
 import com.ndp.model.entity.Role;
 import com.ndp.model.entity.RoleMapping;
-import com.ndp.model.entity.User;
 import com.ndp.repository.MenuRepository;
 import com.ndp.repository.RoleMappingRepository;
 import com.ndp.repository.RoleRepository;
