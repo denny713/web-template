@@ -33,4 +33,9 @@ public class ViewController {
     public String profilePage(HttpServletRequest request) {
         return "profile";
     }
+
+    @GetMapping("/roles")
+    public String rolesPage(HttpServletRequest request) {
+        return "role";
+    }
 }

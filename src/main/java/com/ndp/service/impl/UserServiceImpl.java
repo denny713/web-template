@@ -17,12 +17,10 @@ import com.ndp.repository.UserRepository;
 import com.ndp.repository.dao.UserDao;
 import com.ndp.service.UserService;
 import com.ndp.token.JwtService;
-import com.ndp.util.AccountUtil;
 import com.ndp.util.EmailUtil;
 import com.ndp.util.EncryptUtil;
 import com.ndp.util.TokenUtil;
 import jakarta.servlet.http.HttpServletRequest;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -32,6 +30,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
@@ -50,6 +49,7 @@ public class UserServiceImpl implements UserService {
     private static final String SUCCESS = "Success";
 
     @Override
+    @Transactional
     public ResponseDto getProfile(HttpServletRequest request) {
         String token = TokenUtil.getToken(request);
         if (StringUtils.isEmpty(token)) {
@@ -75,6 +75,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public ResponseDto registerUser(RegisterUserDto dto) {
         if (StringUtils.isEmpty(dto.getUsername())) {
             throw new BadRequestException("Username cannot be null or empty");
@@ -109,6 +110,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public ResponseDto updateUser(UpdateUserDto dto) {
         if (dto.getUserId() == null) {
             throw new BadRequestException("User ID cannot be null or empty");
@@ -141,6 +143,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public ResponseDto resetPass(UpdatePassUserDto dto) {
         if (dto.getUserId() == null) {
             throw new BadRequestException("User ID cannot be null or empty");
@@ -155,6 +158,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public ResponseDto updatePass(UpdatePassUserDto dto) {
         if (dto.getUserId() == null) {
             throw new BadRequestException("User ID cannot be null or empty");
@@ -185,6 +189,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public ResponseDto deleteUser(UpdatePassUserDto dto) {
         if (dto.getUserId() == null) {
             throw new BadRequestException("User ID cannot be null or empty");
@@ -198,6 +203,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public ResponseDto statusUpdate(UpdatePassUserDto dto, boolean isActive) {
         if (dto.getUserId() == null) {
             throw new BadRequestException("User ID cannot be null or empty");
@@ -211,6 +217,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public PageResponseDto searchUser(SearchUserDto dto) {
         try {
             UserDao userDao = new UserDao();

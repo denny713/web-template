@@ -18,6 +18,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Service
@@ -29,6 +30,7 @@ public class AuthServiceImpl implements AuthService {
     private final JwtService jwtService;
 
     @Override
+    @Transactional
     public ResponseDto doLogin(LoginDto dto, HttpServletResponse response) {
         User user = userRepository.findByUsername(dto.getUsername()).orElse(null);
         if (user == null) {
@@ -59,6 +61,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
+    @Transactional
     public ResponseDto doLogout(HttpServletRequest request, HttpServletResponse response) {
         try {
             Cookie[] cookies = request.getCookies();
