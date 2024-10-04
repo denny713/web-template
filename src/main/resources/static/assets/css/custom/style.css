@@ -282,3 +282,10 @@ table.dataTable thead tr {
 .change-pass-icon {
     border-radius: 0 5px 5px 0;
 }
+
+.li-header {
+    font-family: Poppins-Medium, sans-serif;
+    font-size: 26px;
+    padding: 10px;
+    color: #e0e0e0;
+}

@@ -184,3 +184,22 @@ function getCookie(name) {
     }
     return null;
 }
+
+function getValueFromToken(token, key) {
+    let parts = token.split('.');
+    if (parts.length !== 3) {
+        showNotice('error', "Error", "Invalid access token");
+        return;
+    }
+
+    let payload = parts[1];
+    let decodedPayload = atob(payload);
+    let jsonPayload = JSON.parse(decodedPayload);
+
+    if (jsonPayload.hasOwnProperty(key)) {
+        return jsonPayload[key];
+    } else {
+        console.log(`Field '${key}' not found`);
+        return null;
+    }
+}

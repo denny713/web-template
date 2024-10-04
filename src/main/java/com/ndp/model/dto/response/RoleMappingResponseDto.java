@@ -15,6 +15,9 @@ public class RoleMappingResponseDto {
 
     private UUID menuId;
     private String menuName;
+    private String menuDesc;
+    private String menuUrl;
+    private String menuIcon;
     private boolean view;
     private boolean create;
     private boolean edit;
