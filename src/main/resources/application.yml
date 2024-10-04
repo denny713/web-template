@@ -32,6 +32,10 @@ server:
   port: 7070
   servlet:
     context-path: /
+  error:
+    whitelabel:
+      enabled: false
+    path: /error
 logging:
   level:
     org.springframework: DEBUG

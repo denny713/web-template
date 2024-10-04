@@ -289,3 +289,79 @@ table.dataTable thead tr {
     padding: 10px;
     color: #e0e0e0;
 }
+
+#error {
+    position: relative;
+    height: 50vh;
+}
+
+#error .error {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+
+.error {
+    width: 100%;
+    text-align: center;
+}
+
+.error .error-err {
+    height: 280px;
+    position: relative;
+    z-index: -1;
+}
+
+.error .error-err h1 {
+    font-family: Poppins-Regular, sans-serif;
+    font-size: 230px;
+    margin: 0;
+    font-weight: 700;
+    color: #e0e0e0;
+    position: absolute;
+    left: 50%;
+    -webkit-transform: translateX(-50%);
+    -ms-transform: translateX(-50%);
+    transform: translateX(-50%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.error h2 {
+    font-family: Poppins-Regular, sans-serif;
+    color: #e0e0e0;
+    font-size: 24px;
+    font-weight: 700;
+    margin-top: 0;
+}
+
+.error p {
+    font-family: Poppins-Regular, sans-serif;
+    color: #e0e0e0;
+    font-size: 18px;
+    font-weight: 400;
+    margin-bottom: 20px;
+    margin-top: 0;
+}
+
+.error a {
+    font-family: Poppins-Regular, sans-serif;
+    font-size: 18px;
+    text-decoration: none;
+    display: inline-block;
+    padding: 15px 30px;
+    font-weight: 700;
+}
+
+@media only screen and (max-width: 767px) {
+    .error .error-err {
+        height: 142px;
+    }
+
+    .error .error-err h1 {
+        font-size: 112px;
+    }
+}

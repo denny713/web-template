@@ -51,7 +51,7 @@ public class ViewController {
     }
 
     @GetMapping("/change-pass")
-    public String changePassword(HttpServletRequest request,Model model) {
+    public String changePassword(HttpServletRequest request, Model model) {
         model.addAttribute("username", jwtService.getUsername(TokenUtil.getToken(request)));
         return "change-pass";
     }
