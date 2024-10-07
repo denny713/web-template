@@ -72,12 +72,12 @@ public class ViewController {
         String path = request.getServletPath();
         if (!checkAvailableMenu(path)) {
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-            return "error";
+            return "redirect:/error/404";
         }
 
         if (!checkMenuAccess(token, path)) {
             response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-            return "error";
+            return "redirect:/error/403";
         }
 
         model.addAttribute("view", checkAccess(token, path, "view"));

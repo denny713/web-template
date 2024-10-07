@@ -4,25 +4,26 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
+@RequestMapping("/error")
 public class PageErrorController implements ErrorController {
 
-    @RequestMapping("/error")
-    public String handleError(HttpServletRequest request, Model model) {
-        Integer statusCode = (Integer) request.getAttribute("javax.servlet.error.status_code");
+    @GetMapping("/")
+    public String internalServerError(HttpServletRequest request, Model model) {
+        return errorReturn(model, "500 - Internal Server Error", "Something went wrong on the server.");
+    }
 
-        if (statusCode != null) {
-            return switch (statusCode) {
-                case 403 -> errorReturn(model, "403 - Forbidden", "You don't have permission to access this page.");
-                case 404 -> errorReturn(model, "404 - Not Found", "The page you're looking for doesn't exist.");
-                case 500 -> errorReturn(model, "500 - Internal Server Error", "Something went wrong on the server.");
-                default -> errorReturn(model, "Error", "An unexpected error has occurred.");
-            };
-        }
+    @GetMapping("/404")
+    public String notFoundError(HttpServletRequest request, Model model) {
+        return errorReturn(model, "404 - Not Found", "The page you're looking for doesn't exist.");
+    }
 
-        return errorReturn(model, "Error", "An unexpected error has occurred.");
+    @GetMapping("/403")
+    public String forbiddenError(HttpServletRequest request, Model model) {
+        return errorReturn(model, "403 - Forbidden", "You don't have permission to access this page.");
     }
 
     private String errorReturn(Model model, String title, String desc) {
