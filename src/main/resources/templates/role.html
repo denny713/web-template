@@ -5,10 +5,12 @@
 <head>
     <meta charset="UTF-8">
     <script src="/assets/js/custom/role.js"></script>
+    <script src="/assets/js/custom/sidebar.js"></script>
     <script src="/assets/js/components/jquery.min.js"></script>
     <script>
         $(document).ready(function () {
             searchRole();
+            setRoleCreatePermission();
         });
     </script>
 </head>
@@ -67,6 +69,10 @@
                 </div>
             </div>
         </div>
+        <input type="hidden" id="view-access" name="view-access" th:value="${view}"/>
+        <input type="hidden" id="create-access" name="create-access" th:value="${create}"/>
+        <input type="hidden" id="edit-access" name="edit-access" th:value="${edit}"/>
+        <input type="hidden" id="delete-access" name="delete-access" th:value="${delete}"/>
         <div th:replace="~{fragments/role-dialog}"></div>
     </form>
 </div>

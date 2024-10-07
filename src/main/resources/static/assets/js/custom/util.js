@@ -203,3 +203,8 @@ function getValueFromToken(token, key) {
         return null;
     }
 }
+
+function getAccessList() {
+    let token = getCookie('access-token');
+    return getValueFromToken(token, "roleMapping");
+}

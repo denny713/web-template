@@ -1,5 +1,5 @@
 function generateMenu() {
-    let access = getValueFromToken(getCookie('access-token'), "roleMapping");
+    let access = getAccessList();
     let ul = document.getElementById("menu");
     for (let x in access) {
         let id = access[x].menuId;

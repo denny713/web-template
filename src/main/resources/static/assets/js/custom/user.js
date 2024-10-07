@@ -54,6 +54,16 @@ function fillRolesModal(param) {
 }
 
 function searchUsers() {
+    let upd = $("#edit-access").val();
+    if (upd === "" || upd == null) {
+        upd = "false";
+    }
+
+    let del = $("#delete-access").val();
+    if (del === "" || del == null) {
+        del = "false";
+    }
+
     let role = $("#role option:selected").text();
     if (role === "All") {
         role = $("#role").val();
@@ -98,7 +108,16 @@ function searchUsers() {
             '                <i class="fas fa-trash"></i> Delete' +
             '            </button>';
 
-        let actions = modifyAction + " | " + updStatAction + " | " + resetAction + " | " + deleteAction;
+        let actions = null;
+        if (upd === "true" && del === "true") {
+            actions = modifyAction + " | " + updStatAction + " | " + resetAction + " | " + deleteAction;
+        } else if (upd === "true" && del === "false") {
+            actions = modifyAction + " | " + updStatAction + " | " + resetAction;
+        } else if (upd === "false" && del === "true") {
+            actions = deleteAction;
+        } else {
+            actions = "-";
+        }
 
         xtable.row.add([
             no,
@@ -169,4 +188,14 @@ function fillProfile() {
     $("#role-profile").val(data.data.role);
     $("#desc-profile").val(data.data.roleDescription);
     $("#stat-profile").val(status === true ? "Active" : "Non Active");
+}
+
+function setCreatePermission() {
+    let createAccess = $("#create-access").val();
+    let btnAdd = document.getElementById("btn-add");
+
+    btnAdd.style.display = "none";
+    if (createAccess !== "false") {
+        btnAdd.style.display = "block";
+    }
 }

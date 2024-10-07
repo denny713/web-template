@@ -1,4 +1,14 @@
 function searchRole() {
+    let upd = $("#edit-access").val();
+    if (upd === "" || upd == null) {
+        upd = "false";
+    }
+
+    let del = $("#delete-access").val();
+    if (del === "" || del == null) {
+        del = "false";
+    }
+
     let requestData = {};
     requestData["name"] = $("#name").val();
     requestData["description"] = $("#desc").val();
@@ -33,7 +43,16 @@ function searchRole() {
             '            </button>';
         let updStatAction = active ? deactiveAction : reactiveAction;
 
-        let actions = modifyAction + " | " + updStatAction + " | " + deleteAction;
+        let actions = null;
+        if (upd === "true" && del === "true") {
+            actions = modifyAction + " | " + updStatAction + " | " + deleteAction;
+        } else if (upd === "true" && del === "false") {
+            actions = modifyAction + " | " + updStatAction;
+        } else if (upd === "false" && del === "true") {
+            actions = deleteAction;
+        } else {
+            actions = "-";
+        }
 
         xtable.row.add([
             no,
@@ -289,4 +308,14 @@ function addCell(element, className = '') {
 
     td.appendChild(element);
     return td;
+}
+
+function setRoleCreatePermission() {
+    let createAccess = $("#create-access").val();
+    let btnAdd = document.getElementById("btn-add");
+
+    btnAdd.style.display = "none";
+    if (createAccess !== "false") {
+        btnAdd.style.display = "block";
+    }
 }
