@@ -91,7 +91,7 @@ function searchUsers() {
         let status = active ? "Active" : "Non Active";
 
         let modifyAction = '<button type="button" data-bs-toggle="modal" data-bs-target="#userDetail"  class="btn btn-primary btn-icon" ' +
-            'onClick="edit(\'' + data.data[x].id + '\',\'' + data.data[x].username + '\',\'' + data.data[x].name + '\',\'' + data.data[x].email + '\',\'' + data.data[x].role + '\')">' +
+            'onClick="edit(\'' + data.data[x].id + '\',\'' + data.data[x].username + '\',\'' + data.data[x].name + '\',\'' + data.data[x].email + '\',\'' + data.data[x].roleDescription + '\')">' +
             '                <i class="fas fa-edit"></i> Edit' +
             '            </button>';
         let deactiveAction = '<button type="button" onClick="deactive(\'' + data.data[x].id + '\',\'' + data.data[x].username + '\')" class="btn btn-secondary btn-icon">' +

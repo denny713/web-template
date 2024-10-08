@@ -169,7 +169,7 @@ function appendOptions(select, data, param) {
         option.setAttribute("value", data.data[x].key);
         option.innerHTML = data.data[x].value;
         if (param !== "" && param != null && param !== "-") {
-            if (param === data.data[x].value) {
+            if (param === data.data[x].key || param === data.data[x].value) {
                 option.setAttribute("selected", "selected");
             }
         }

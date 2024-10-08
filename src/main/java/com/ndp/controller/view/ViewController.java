@@ -40,10 +40,8 @@ public class ViewController {
             return "redirect:/change-pass";
         }
 
-        return (request.getServletPath().equals("/home")
-                || request.getServletPath().equals("/index")
-                || request.getServletPath().equals("/"))
-                ? "redirect:/dashboard" : "index";
+        String path = request.getServletPath();
+        return (path.equals("/home") || path.equals("/index") || path.equals("/")) ? "redirect:/dashboard" : "index";
     }
 
     @GetMapping("/users")
@@ -52,7 +50,7 @@ public class ViewController {
     }
 
     @GetMapping("/profile")
-    public String profilePage(HttpServletRequest request) {
+    public String profilePage() {
         return "profile";
     }
 

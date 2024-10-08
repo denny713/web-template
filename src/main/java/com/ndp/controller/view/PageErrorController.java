@@ -1,6 +1,5 @@
 package com.ndp.controller.view;
 
-import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,17 +11,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class PageErrorController implements ErrorController {
 
     @GetMapping("/")
-    public String internalServerError(HttpServletRequest request, Model model) {
+    public String internalServerError(Model model) {
         return errorReturn(model, "500 - Internal Server Error", "Something went wrong on the server.");
     }
 
     @GetMapping("/404")
-    public String notFoundError(HttpServletRequest request, Model model) {
+    public String notFoundError(Model model) {
         return errorReturn(model, "404 - Not Found", "The page you're looking for doesn't exist.");
     }
 
     @GetMapping("/403")
-    public String forbiddenError(HttpServletRequest request, Model model) {
+    public String forbiddenError(Model model) {
         return errorReturn(model, "403 - Forbidden", "You don't have permission to access this page.");
     }
 
