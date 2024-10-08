@@ -31,4 +31,14 @@ public class RoleDao extends CommonDao {
             return cb.and(predicates.toArray(new Predicate[0]));
         };
     }
+
+    public Specification<Role> buildFindByRoleName(String name) {
+        return (root, cq, cb) -> {
+            List<Predicate> predicates = new ArrayList<>();
+            add(predicates, isTrue("active", root, cb));
+            add(predicates, isFalse("deleted", root, cb));
+            add(predicates, equals(name, "name", root, cb));
+            return cb.and(predicates.toArray(new Predicate[0]));
+        };
+    }
 }

@@ -133,6 +133,10 @@ public class RoleServiceImpl implements RoleService {
             throw new BadRequestException("Role name cannot be null or empty");
         }
 
+        if (getRoleByName(dto.getName()) != null) {
+            throw new BadRequestException("Role already exists");
+        }
+
         Role role = new Role();
         role.setName(dto.getName());
         role.setDescription(dto.getDescription());
@@ -261,5 +265,10 @@ public class RoleServiceImpl implements RoleService {
         }
 
         return role.get();
+    }
+
+    private Role getRoleByName(String name) {
+        RoleDao roleDao = new RoleDao();
+        return roleRepository.findOne(roleDao.buildFindByRoleName(name)).orElse(null);
     }
 }

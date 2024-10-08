@@ -90,7 +90,7 @@ public class UserServiceImpl implements UserService {
             throw new BadRequestException("Role ID cannot be null or empty");
         }
 
-        if (getByUsername(dto.getUsername()) != null) {
+        if (getUserByUsername(dto.getUsername()) != null) {
             throw new ForbiddenException("User already exists");
         }
 
@@ -266,12 +266,16 @@ public class UserServiceImpl implements UserService {
     }
 
     private User getByUsername(String username) {
-        UserDao userDao = new UserDao();
-        User user = userRepository.findOne(userDao.buildFindByUsername(username)).orElse(null);
+        User user = getUserByUsername(username);
         if (user == null) {
             throw new NotFoundException("User not found");
         }
 
         return user;
+    }
+
+    private User getUserByUsername(String username) {
+        UserDao userDao = new UserDao();
+        return userRepository.findOne(userDao.buildFindByUsername(username)).orElse(null);
     }
 }
