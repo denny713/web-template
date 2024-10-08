@@ -24,12 +24,12 @@ function saveUser() {
 
         if (userId === "" || userId == null) {
             confirm("/api/user/register", "Are you sure want to register this user: " + username + " ?", request, function () {
-                pageReload();
+                reload();
             });
         } else {
             request["userId"] = userId;
             confirm("/api/user/update", "Are you sure want to update this user: " + username + " ?", request, function () {
-                pageReload();
+                reload();
             });
         }
     }
@@ -54,6 +54,16 @@ function fillRolesModal(param) {
 }
 
 function searchUsers() {
+    let upd = $("#edit-access").val();
+    if (upd === "" || upd == null) {
+        upd = "false";
+    }
+
+    let del = $("#delete-access").val();
+    if (del === "" || del == null) {
+        del = "false";
+    }
+
     let role = $("#role option:selected").text();
     if (role === "All") {
         role = $("#role").val();
@@ -81,7 +91,7 @@ function searchUsers() {
         let status = active ? "Active" : "Non Active";
 
         let modifyAction = '<button type="button" data-bs-toggle="modal" data-bs-target="#userDetail"  class="btn btn-primary btn-icon" ' +
-            'onClick="edit(\'' + data.data[x].id + '\',\'' + data.data[x].username + '\',\'' + data.data[x].name + '\',\'' + data.data[x].email + '\',\'' + data.data[x].role + '\')">' +
+            'onClick="edit(\'' + data.data[x].id + '\',\'' + data.data[x].username + '\',\'' + data.data[x].name + '\',\'' + data.data[x].email + '\',\'' + data.data[x].roleDescription + '\')">' +
             '                <i class="fas fa-edit"></i> Edit' +
             '            </button>';
         let deactiveAction = '<button type="button" onClick="deactive(\'' + data.data[x].id + '\',\'' + data.data[x].username + '\')" class="btn btn-secondary btn-icon">' +
@@ -98,7 +108,16 @@ function searchUsers() {
             '                <i class="fas fa-trash"></i> Delete' +
             '            </button>';
 
-        let actions = modifyAction + " | " + updStatAction + " | " + resetAction + " | " + deleteAction;
+        let actions = null;
+        if (upd === "true" && del === "true") {
+            actions = modifyAction + " | " + updStatAction + " | " + resetAction + " | " + deleteAction;
+        } else if (upd === "true" && del === "false") {
+            actions = modifyAction + " | " + updStatAction + " | " + resetAction;
+        } else if (upd === "false" && del === "true") {
+            actions = deleteAction;
+        } else {
+            actions = "-";
+        }
 
         xtable.row.add([
             no,
@@ -116,25 +135,25 @@ function searchUsers() {
 
 function resetPass(id, username) {
     confirm("/api/user/password/reset", "Are you sure want to reset password this user: " + username + " ?", generateRequest(id), function () {
-        pageReload();
+        reload();
     });
 }
 
 function deleteUser(id, username) {
     confirm("/api/user/delete", "Are you sure want to delete this user: " + username + " ?", generateRequest(id), function () {
-        pageReload();
+        reload();
     });
 }
 
 function reactive(id, username) {
     confirm("/api/user/reactivate", "Are you sure want to reactivate this user: " + username + " ?", generateRequest(id), function () {
-        pageReload();
+        reload();
     });
 }
 
 function deactive(id, username) {
     confirm("/api/user/deactivate", "Are you sure want to deactivate this user: " + username + " ?", generateRequest(id), function () {
-        pageReload();
+        reload();
     });
 }
 
@@ -169,4 +188,14 @@ function fillProfile() {
     $("#role-profile").val(data.data.role);
     $("#desc-profile").val(data.data.roleDescription);
     $("#stat-profile").val(status === true ? "Active" : "Non Active");
+}
+
+function setCreatePermission() {
+    let createAccess = $("#create-access").val();
+    let btnAdd = document.getElementById("btn-add");
+
+    btnAdd.style.display = "none";
+    if (createAccess !== "false") {
+        btnAdd.style.display = "block";
+    }
 }

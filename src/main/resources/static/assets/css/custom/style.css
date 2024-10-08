@@ -200,6 +200,22 @@ table.dataTable thead tr {
     text-align: center;
 }
 
+.change-pass-box {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    max-width: 500px;
+    width: 100%;
+}
+
+.change-pass-box h1 {
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
 .form-control-auth {
     border-radius: 0 30px 30px 0;
     padding: 10px 20px;
@@ -218,7 +234,7 @@ table.dataTable thead tr {
 .btn-login {
     border-radius: 30px;
     padding: 10px 20px;
-    font-weight: 500;
+    font-weight: bold;
     background-color: #2040b0;
     color: white;
 }
@@ -257,4 +273,95 @@ table.dataTable thead tr {
 
 #permissionsTable thead {
     background-color: #f80606;
+}
+
+.show-pass-icon {
+    border-radius: 0 30px 30px 0;
+}
+
+.change-pass-icon {
+    border-radius: 0 5px 5px 0;
+}
+
+.li-header {
+    font-family: Poppins-Medium, sans-serif;
+    font-size: 26px;
+    padding: 10px;
+    color: #e0e0e0;
+}
+
+#error {
+    position: relative;
+    height: 50vh;
+}
+
+#error .error {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+
+.error {
+    width: 100%;
+    text-align: center;
+}
+
+.error .error-err {
+    height: 280px;
+    position: relative;
+    z-index: -1;
+}
+
+.error .error-err h1 {
+    font-family: Poppins-Regular, sans-serif;
+    font-size: 230px;
+    margin: 0;
+    font-weight: 700;
+    color: #e0e0e0;
+    position: absolute;
+    left: 50%;
+    -webkit-transform: translateX(-50%);
+    -ms-transform: translateX(-50%);
+    transform: translateX(-50%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.error h2 {
+    font-family: Poppins-Regular, sans-serif;
+    color: #e0e0e0;
+    font-size: 24px;
+    font-weight: 700;
+    margin-top: 0;
+}
+
+.error p {
+    font-family: Poppins-Regular, sans-serif;
+    color: #e0e0e0;
+    font-size: 18px;
+    font-weight: 400;
+    margin-bottom: 20px;
+    margin-top: 0;
+}
+
+.error a {
+    font-family: Poppins-Regular, sans-serif;
+    font-size: 18px;
+    text-decoration: none;
+    display: inline-block;
+    padding: 15px 30px;
+    font-weight: 700;
+}
+
+@media only screen and (max-width: 767px) {
+    .error .error-err {
+        height: 142px;
+    }
+
+    .error .error-err h1 {
+        font-size: 112px;
+    }
 }

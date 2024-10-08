@@ -1,4 +1,14 @@
 function searchRole() {
+    let upd = $("#edit-access").val();
+    if (upd === "" || upd == null) {
+        upd = "false";
+    }
+
+    let del = $("#delete-access").val();
+    if (del === "" || del == null) {
+        del = "false";
+    }
+
     let requestData = {};
     requestData["name"] = $("#name").val();
     requestData["description"] = $("#desc").val();
@@ -33,7 +43,16 @@ function searchRole() {
             '            </button>';
         let updStatAction = active ? deactiveAction : reactiveAction;
 
-        let actions = modifyAction + " | " + updStatAction + " | " + deleteAction;
+        let actions = null;
+        if (upd === "true" && del === "true") {
+            actions = modifyAction + " | " + updStatAction + " | " + deleteAction;
+        } else if (upd === "true" && del === "false") {
+            actions = modifyAction + " | " + updStatAction;
+        } else if (upd === "false" && del === "true") {
+            actions = deleteAction;
+        } else {
+            actions = "-";
+        }
 
         xtable.row.add([
             no,
@@ -98,12 +117,12 @@ function saveRole() {
 
         if (roleId === "" || roleId == null) {
             confirm("/api/role/register", "Are you sure want to register this role: " + roleName + " ?", request, function () {
-                pageReload();
+                reload();
             });
         } else {
             request["roleId"] = roleId;
             confirm("/api/role/update", "Are you sure want to update this role: " + roleName + " ?", request, function () {
-                pageReload();
+                reload();
             });
         }
     }
@@ -202,19 +221,19 @@ function clearTableOnModal() {
 
 function deleteRole(id, name) {
     confirm("/api/role/delete", "Are you sure want to delete this role: " + name + " ?", roleReq(id), function () {
-        pageReload();
+        reload();
     });
 }
 
 function roleReactive(id, name) {
     confirm("/api/role/reactivate", "Are you sure want to reactivate this role: " + name + " ?", roleReq(id), function () {
-        pageReload();
+        reload();
     });
 }
 
 function roleDeactive(id, name) {
     confirm("/api/role/deactivate", "Are you sure want to deactivate this role: " + name + " ?", roleReq(id), function () {
-        pageReload();
+        reload();
     });
 }
 
@@ -289,4 +308,14 @@ function addCell(element, className = '') {
 
     td.appendChild(element);
     return td;
+}
+
+function setRoleCreatePermission() {
+    let createAccess = $("#create-access").val();
+    let btnAdd = document.getElementById("btn-add");
+
+    btnAdd.style.display = "none";
+    if (createAccess !== "false") {
+        btnAdd.style.display = "block";
+    }
 }

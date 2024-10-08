@@ -5,4 +5,6 @@ import com.ndp.model.dto.response.ResponseDto;
 public interface MenuService {
 
     ResponseDto getAllMenusToOptions();
+
+    ResponseDto getMenusToOptions();
 }

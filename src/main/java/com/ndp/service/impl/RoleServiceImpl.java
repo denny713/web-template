@@ -65,6 +65,9 @@ public class RoleServiceImpl implements RoleService {
                 x.getRoleMapping().forEach(c -> mappings.add(new RoleMappingResponseDto(
                         c.getMenu().getId(),
                         c.getMenu().getName(),
+                        c.getMenu().getDescription(),
+                        c.getMenu().getUrl(),
+                        c.getMenu().getIcon(),
                         c.isViewAccess(),
                         c.isCreateAccess(),
                         c.isEditAccess(),
@@ -102,6 +105,9 @@ public class RoleServiceImpl implements RoleService {
         role.getRoleMapping().forEach(c -> mappings.add(new RoleMappingResponseDto(
                 c.getMenu().getId(),
                 c.getMenu().getName(),
+                c.getMenu().getDescription(),
+                c.getMenu().getUrl(),
+                c.getMenu().getIcon(),
                 c.isViewAccess(),
                 c.isCreateAccess(),
                 c.isEditAccess(),
@@ -163,10 +169,12 @@ public class RoleServiceImpl implements RoleService {
 
         List<Map<String, String>> roleOptions = new ArrayList<>();
         roles.forEach(x -> {
-            Map<String, String> roleOption = new HashMap<>();
-            roleOption.put("key", x.getId().toString());
-            roleOption.put("value", x.getDescription());
-            roleOptions.add(roleOption);
+            if (!x.isDeleted()) {
+                Map<String, String> roleOption = new HashMap<>();
+                roleOption.put("key", x.getId().toString());
+                roleOption.put("value", x.getDescription());
+                roleOptions.add(roleOption);
+            }
         });
 
         return new ResponseDto(200, SUCCESS, roleOptions);

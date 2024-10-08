@@ -1,5 +1,6 @@
 package com.ndp.token;
 
+import com.ndp.model.dto.response.RoleMappingResponseDto;
 import com.ndp.model.entity.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -11,10 +12,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.security.Key;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.function.Function;
 
 @Service
@@ -97,14 +95,32 @@ public class JwtService {
         return extractClaim(token, Claims::getExpiration);
     }
 
+    public Object getFromExtraClaim(String token, String value) {
+        return extractClaim(token, claims -> claims.get(value));
+    }
+
     private Map<String, Object> extraClaims(UserDetails userDetails) {
         User user = (User) userDetails;
+        List<RoleMappingResponseDto> maps = new ArrayList<>();
+        user.getRole().getRoleMapping().forEach(x -> maps.add(new RoleMappingResponseDto(
+                x.getMenu().getId(),
+                x.getMenu().getName(),
+                x.getMenu().getDescription(),
+                x.getMenu().getUrl(),
+                x.getMenu().getIcon(),
+                x.isViewAccess(),
+                x.isCreateAccess(),
+                x.isEditAccess(),
+                x.isDeleteAccess()
+        )));
+
         Map<String, Object> result = new HashMap<>();
         result.put("username", user.getUsername());
         result.put("name", user.getName());
         result.put("email", user.getEmail());
         result.put("role", user.getRole().getId());
         result.put("needChangePass", user.isMustChangePassword());
+        result.put("roleMapping", maps);
         return result;
     }
 }

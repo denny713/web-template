@@ -26,10 +26,30 @@ public class MenuServiceImpl implements MenuService {
 
         List<Map<String, String>> menuOptions = new ArrayList<>();
         menus.forEach(x -> {
-            Map<String, String> menuOption = new HashMap<>();
-            menuOption.put("key", x.getId().toString());
-            menuOption.put("value", x.getName());
-            menuOptions.add(menuOption);
+            if (!x.isDeleted()) {
+                Map<String, String> menuOption = new HashMap<>();
+                menuOption.put("key", x.getId().toString());
+                menuOption.put("value", x.getName());
+                menuOptions.add(menuOption);
+            }
+        });
+
+        return new ResponseDto(200, "Success", menuOptions);
+    }
+
+    @Override
+    @Transactional
+    public ResponseDto getMenusToOptions() {
+        List<Menu> menus = menuRepository.findAll();
+
+        List<Map<String, String>> menuOptions = new ArrayList<>();
+        menus.forEach(x -> {
+            if (!x.isDeleted()) {
+                Map<String, String> menuOption = new HashMap<>();
+                menuOption.put("key", x.getId().toString());
+                menuOption.put("value", x.getUrl());
+                menuOptions.add(menuOption);
+            }
         });
 
         return new ResponseDto(200, "Success", menuOptions);

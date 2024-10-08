@@ -3,7 +3,15 @@ function redirect(url) {
 }
 
 function reload() {
-    window.location.reload();
+    location.reload();
+}
+
+function hideLoading() {
+    $("#loading").modal("hide");
+}
+
+function showLoading() {
+    $("#loading").modal("show");
 }
 
 function showNotice(type, title, message, callback) {
@@ -22,7 +30,7 @@ function showNotice(type, title, message, callback) {
     });
 }
 
-function processAuth(url, type, data, callback) {
+function processAuth(url, type, data) {
     $.ajax({
         url: url,
         type: type,
@@ -38,7 +46,7 @@ function processAuth(url, type, data, callback) {
             if (code !== 200) {
                 showNotice('error', "Failed", status);
             } else {
-                callback(this.success);
+                redirect("/dashboard");
             }
         },
         error: function (jqXHR, textStatus, errorThrown) {
@@ -161,24 +169,12 @@ function appendOptions(select, data, param) {
         option.setAttribute("value", data.data[x].key);
         option.innerHTML = data.data[x].value;
         if (param !== "" && param != null && param !== "-") {
-            if (param === data.data[x].value) {
+            if (param === data.data[x].key || param === data.data[x].value) {
                 option.setAttribute("selected", "selected");
             }
         }
         select.appendChild(option);
     }
-}
-
-function hideLoading() {
-    $("#loading").modal("hide");
-}
-
-function showLoading() {
-    $("#loading").modal("show");
-}
-
-function pageReload() {
-    location.reload();
 }
 
 function getCookie(name) {
@@ -187,4 +183,28 @@ function getCookie(name) {
         return match[2];
     }
     return null;
+}
+
+function getValueFromToken(token, key) {
+    let parts = token.split('.');
+    if (parts.length !== 3) {
+        showNotice('error', "Error", "Invalid access token");
+        return;
+    }
+
+    let payload = parts[1];
+    let decodedPayload = atob(payload);
+    let jsonPayload = JSON.parse(decodedPayload);
+
+    if (jsonPayload.hasOwnProperty(key)) {
+        return jsonPayload[key];
+    } else {
+        console.log(`Field '${key}' not found`);
+        return null;
+    }
+}
+
+function getAccessList() {
+    let token = getCookie('access-token');
+    return getValueFromToken(token, "roleMapping");
 }

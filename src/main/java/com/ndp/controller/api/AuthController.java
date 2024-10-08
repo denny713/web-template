@@ -1,6 +1,7 @@
 package com.ndp.controller.api;
 
 import com.ndp.model.dto.request.LoginDto;
+import com.ndp.model.dto.request.UpdatePassUserDto;
 import com.ndp.model.dto.response.ResponseDto;
 import com.ndp.service.AuthService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -28,5 +29,10 @@ public class AuthController {
     @PostMapping("/logout")
     public ResponseEntity<ResponseDto> doLogout(HttpServletRequest request, HttpServletResponse response) {
         return ResponseEntity.ok(authService.doLogout(request, response));
+    }
+
+    @PostMapping("/update-pass")
+    public ResponseEntity<ResponseDto> doUpdatePass(@Valid @RequestBody UpdatePassUserDto dto, HttpServletRequest request) {
+        return ResponseEntity.ok(authService.doChangePass(dto, request));
     }
 }

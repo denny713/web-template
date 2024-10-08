@@ -1,6 +1,7 @@
 package com.ndp.service.impl;
 
 import com.ndp.exception.BadRequestException;
+import com.ndp.exception.ForbiddenException;
 import com.ndp.exception.NotFoundException;
 import com.ndp.exception.ServiceException;
 import com.ndp.model.dto.request.RegisterUserDto;
@@ -56,11 +57,7 @@ public class UserServiceImpl implements UserService {
             throw new NotFoundException("No JWT token found in request headers or cookies");
         }
 
-        User user = userRepository.findByUsername(jwtService.getUsername(token)).orElse(null);
-        if (user == null) {
-            throw new NotFoundException("Profile detail not found");
-        }
-
+        User user = getByUsername(jwtService.getUsername(token));
         return new ResponseDto(200, SUCCESS, new UserResponseDto(
                 user.getId(),
                 user.getUsername(),
@@ -91,6 +88,10 @@ public class UserServiceImpl implements UserService {
 
         if (dto.getRoleId() == null) {
             throw new BadRequestException("Role ID cannot be null or empty");
+        }
+
+        if (getByUsername(dto.getUsername()) != null) {
+            throw new ForbiddenException("User already exists");
         }
 
         dto.setEmail(StringUtils.isEmpty(dto.getEmail()) ? "-" : dto.getEmail());
@@ -262,5 +263,15 @@ public class UserServiceImpl implements UserService {
         }
 
         return user.get();
+    }
+
+    private User getByUsername(String username) {
+        UserDao userDao = new UserDao();
+        User user = userRepository.findOne(userDao.buildFindByUsername(username)).orElse(null);
+        if (user == null) {
+            throw new NotFoundException("User not found");
+        }
+
+        return user;
     }
 }

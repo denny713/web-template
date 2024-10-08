@@ -10,6 +10,7 @@
         $(document).ready(function () {
             fillRoles();
             searchUsers();
+            setCreatePermission();
         });
     </script>
 </head>
@@ -53,11 +54,11 @@
                     <br>
                     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
                         <button class="btn btn-danger btn-sm btn-fix" type="button" onclick="addNew()"
-                                data-bs-toggle="modal" data-bs-target="#userDetail">
+                                data-bs-toggle="modal" data-bs-target="#userDetail" id="btn-add">
                             <i class="fas fa-add"></i>
                             Add
                         </button>
-                        <button class="btn btn-primary btn-sm btn-fix" type="button"
+                        <button class="btn btn-primary btn-sm btn-fix" type="button" id="btn-search"
                                 onclick="searchUsers();return false;">
                             <i class="fas fa-search"></i>
                             Search
@@ -84,6 +85,10 @@
                 </div>
             </div>
         </div>
+        <input type="hidden" id="view-access" name="view-access" th:value="${view}"/>
+        <input type="hidden" id="create-access" name="create-access" th:value="${create}"/>
+        <input type="hidden" id="edit-access" name="edit-access" th:value="${edit}"/>
+        <input type="hidden" id="delete-access" name="delete-access" th:value="${delete}"/>
         <div th:replace="~{fragments/user-dialog}"></div>
     </form>
 </div>

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en"
+      layout:decorate="~{layout/sign-layout}"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <title>Error</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div id="error">
+        <div class="error">
+            <div class="error-err">
+                <h1>Oops!</h1>
+            </div>
+            <h2 th:text="${title}"></h2>
+            <p th:text="${desc}"></p>
+            <a href="/dashboard">Back to Dashboard</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>

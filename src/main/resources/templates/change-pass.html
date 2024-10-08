@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en"
+      layout:decorate="~{layout/sign-layout}"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <title>Change Password</title>
+    <script src="/assets/js/custom/auth.js"></script>
+    <script type="text/javascript">
+
+        document.addEventListener('DOMContentLoaded', function () {
+            let currPassIcon = document.getElementById("currPass");
+            let currPassText = document.getElementById("current-pass");
+            currPassIcon.addEventListener('click', function () {
+                const type = currPassText.getAttribute('type') === 'password' ? 'text' : 'password';
+                currPassText.setAttribute('type', type);
+                this.classList.toggle('fa-eye-slash');
+            });
+
+            let newPassIcon = document.getElementById("newPass");
+            let newPassText = document.getElementById("new-pass");
+            newPassIcon.addEventListener('click', function () {
+                const type = newPassText.getAttribute('type') === 'password' ? 'text' : 'password';
+                newPassText.setAttribute('type', type);
+                this.classList.toggle('fa-eye-slash');
+            });
+
+            let confPassIcon = document.getElementById("confPass");
+            let confPassText = document.getElementById("confirm-pass");
+            confPassIcon.addEventListener('click', function () {
+                const type = confPassText.getAttribute('type') === 'password' ? 'text' : 'password';
+                confPassText.setAttribute('type', type);
+                this.classList.toggle('fa-eye-slash');
+            });
+
+            const loginForm = document.querySelector('form');
+            loginForm.addEventListener('keydown', function (event) {
+                if (event.key === 'Enter') {
+                    event.preventDefault();
+                    doChangePass();
+                }
+            });
+        });
+    </script>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="login-container">
+        <div class="change-pass-box">
+            <h1>Change Password</h1>
+            <form>
+                <div class="col-xs-12">
+                    <div class="row form-group">
+                        <div class="col-sm-6">
+                            <label class="display-label-modal" for="current-pass">Current Password</label>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="input-group">
+                                <input type="password" id="current-pass" name="current-pass" class="form-control"/>
+                                <span class="input-group-text change-pass-icon">
+                                    <i class="fas fa-eye" id="currPass" style="cursor: pointer;"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-12">
+                    <div class="row form-group">
+                        <div class="col-sm-6">
+                            <label class="display-label-modal" for="new-pass">New Password</label>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="input-group">
+                                <input type="password" id="new-pass" name="new-pass" class="form-control"/>
+                                <span class="input-group-text change-pass-icon">
+                                    <i class="fas fa-eye" id="newPass" style="cursor: pointer;"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-12">
+                    <div class="row form-group">
+                        <div class="col-sm-6">
+                            <label class="display-label-modal" for="confirm-pass">Confirmation Password</label>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="input-group">
+                                <input type="password" id="confirm-pass" name="confirm-pass" class="form-control"/>
+                                <span class="input-group-text change-pass-icon">
+                                    <i class="fas fa-eye" id="confPass" style="cursor: pointer;"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <input type="hidden" id="username" name="username" th:value="${username}">
+                <button type="button" onclick="doChangePass()" class="btn btn-login w-100">Change Password</button>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>
