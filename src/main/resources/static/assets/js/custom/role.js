@@ -1,4 +1,56 @@
 function searchRole() {
+    $('#example').DataTable({
+        "destroy": true,
+        "serverSide": true,
+        "processing": true,
+        "ajax": {
+            "url": "/api/role/list",
+            "type": "POST",
+            "contentType": "application/json",
+            "data": function (d) {
+                return JSON.stringify({
+                    "draw": d.draw,
+                    "name": $("#name").val(),
+                    "description": $("#desc").val(),
+                    "active": true,
+                    "page": Math.ceil(d.start / d.length),
+                    "size": d.length,
+                    "sort": "ASC"
+                });
+            },
+            "dataSrc": function (json) {
+                return json.data;
+            }
+        },
+        "columns": [
+            {"data": "name"},
+            {"data": "description"},
+            {
+                "data": "active", "render": function (data) {
+                    return data ? "Active" : "Non Active";
+                }
+            },
+            {
+                "data": "createdDate", "render": function (data) {
+                    return data.substring(0, 10);
+                }
+            },
+            {
+                "data": null, "render": function (data) {
+                    return generateRoleActions(data);
+                }
+            }
+        ],
+        "pageLength": 10,
+        "paging": true,
+        "searching": false,
+        "ordering": true,
+        "info": true,
+        "autoWidth": false
+    });
+}
+
+function generateRoleActions(data){
     let upd = $("#edit-access").val();
     if (upd === "" || upd == null) {
         upd = "false";
@@ -9,58 +61,34 @@ function searchRole() {
         del = "false";
     }
 
-    let requestData = {};
-    requestData["name"] = $("#name").val();
-    requestData["description"] = $("#desc").val();
-    requestData["page"] = 0;
-    requestData["size"] = 10;
-    requestData["sort"] = "ASC";
+    let active = data.active;
+    let modifyAction = '<button type="button" data-bs-toggle="modal" data-bs-target="#roleDetail" class="btn btn-primary btn-icon btn-sm" ' +
+        'onClick="editRole(\'' + data.id + '\')">' +
+        '                <i class="fas fa-edit"></i> Edit' +
+        '            </button>';
+    let deleteAction = '<button type="button" onClick="deleteRole(\'' + data.id + '\',\'' + data.name + '\')" class="btn btn-danger btn-icon btn-sm">' +
+        '                <i class="fas fa-trash"></i> Delete' +
+        '            </button>';
+    let deactiveAction = '<button type="button" onClick="roleDeactive(\'' + data.id + '\',\'' + data.name + '\')" class="btn btn-secondary btn-icon btn-sm">' +
+        '                <i class="fas fa-ban"></i> Deactivate' +
+        '            </button>';
+    let reactiveAction = '<button type="button" onClick="roleReactive(\'' + data.id + '\',\'' + data.name + '\')" class="btn btn-success btn-icon btn-sm">' +
+        '                <i class="fas fa-redo"></i> Reactivate' +
+        '            </button>';
+    let updStatAction = active ? deactiveAction : reactiveAction;
 
-    let data = get("/api/role/list", requestData);
-    let xtable = $('#example').DataTable();
-    xtable.clear().draw();
-    for (let x in data.data) {
-        let crtDate = data.data[x].createdDate;
-        crtDate = crtDate.replace(crtDate.substring(11, 23), '');
-
-        let active = data.data[x].active;
-        let status = active ? "Active" : "Non Active";
-
-        let modifyAction = '<button type="button" data-bs-toggle="modal" data-bs-target="#roleDetail" class="btn btn-primary btn-icon btn-sm" ' +
-            'onClick="editRole(\'' + data.data[x].id + '\')">' +
-            '                <i class="fas fa-edit"></i> Edit' +
-            '            </button>';
-        let deleteAction = '<button type="button" onClick="deleteRole(\'' + data.data[x].id + '\',\'' + data.data[x].name + '\')" class="btn btn-danger btn-icon btn-sm">' +
-            '                <i class="fas fa-trash"></i> Delete' +
-            '            </button>';
-        let deactiveAction = '<button type="button" onClick="roleDeactive(\'' + data.data[x].id + '\',\'' + data.data[x].name + '\')" class="btn btn-secondary btn-icon btn-sm">' +
-            '                <i class="fas fa-ban"></i> Deactivate' +
-            '            </button>';
-        let reactiveAction = '<button type="button" onClick="roleReactive(\'' + data.data[x].id + '\',\'' + data.data[x].name + '\')" class="btn btn-success btn-icon btn-sm">' +
-            '                <i class="fas fa-redo"></i> Reactivate' +
-            '            </button>';
-        let updStatAction = active ? deactiveAction : reactiveAction;
-
-        let actions = null;
-        if (upd === "true" && del === "true") {
-            actions = modifyAction + " | " + updStatAction + " | " + deleteAction;
-        } else if (upd === "true" && del === "false") {
-            actions = modifyAction + " | " + updStatAction;
-        } else if (upd === "false" && del === "true") {
-            actions = deleteAction;
-        } else {
-            actions = "-";
-        }
-
-        xtable.row.add([
-            data.data[x].name,
-            data.data[x].description,
-            status,
-            crtDate.substring(0, 10),
-            actions
-        ]);
+    let actions;
+    if (upd === "true" && del === "true") {
+        actions = modifyAction + " | " + updStatAction + " | " + deleteAction;
+    } else if (upd === "true" && del === "false") {
+        actions = modifyAction + " | " + updStatAction;
+    } else if (upd === "false" && del === "true") {
+        actions = deleteAction;
+    } else {
+        actions = "-";
     }
-    xtable.draw();
+
+    return actions;
 }
 
 function saveRole() {

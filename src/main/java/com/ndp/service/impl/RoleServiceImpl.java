@@ -55,7 +55,7 @@ public class RoleServiceImpl implements RoleService {
                             dto.getSize() == null || dto.getSize() <= 0 ? 1 : dto.getSize(),
                             Sort.by(
                                     dto.getSort() == null ? Sort.Direction.ASC : dto.getSort(),
-                                    StringUtils.isEmpty(dto.getSortBy()) ? "name" : dto.getSortBy()
+                                    StringUtils.isEmpty(dto.getSortBy()) ? "id" : dto.getSortBy()
                             )
                     )
             );
@@ -85,8 +85,9 @@ public class RoleServiceImpl implements RoleService {
                 ));
             });
 
-            return new PageResponseDto(200, SUCCESS, results, roles.getNumber(),
-                    roles.getSize(), roles.getTotalPages(), roles.getTotalElements());
+            return new PageResponseDto(200, SUCCESS, results,
+                    dto.getDraw() == null ? 0 : dto.getDraw(),
+                    roles.getTotalElements(), roles.getTotalElements());
         } catch (Exception e) {
             log.error(e.getMessage());
             throw new ServiceException(e.getMessage());
@@ -144,7 +145,7 @@ public class RoleServiceImpl implements RoleService {
 
         List<RoleMapping> roleMappings = new ArrayList<>();
         List<RoleMappingDto> dtos = dto.getRoleMapping();
-        List<Menu> menus = menuRepository.findByIdIn(dtos.stream() .map(RoleMappingDto::getMenuId).toList());
+        List<Menu> menus = menuRepository.findByIdIn(dtos.stream().map(RoleMappingDto::getMenuId).toList());
         dtos.forEach(x -> {
             Menu menu = menus.stream().filter(menuDetail -> menuDetail.getId() == x.getMenuId()).findFirst().orElse(null);
             if (menu == null) {

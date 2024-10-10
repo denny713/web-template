@@ -231,7 +231,7 @@ public class UserServiceImpl implements UserService {
                             dto.getSize() == null || dto.getSize() <= 0 ? 1 : dto.getSize(),
                             Sort.by(
                                     dto.getSort() == null ? Sort.Direction.ASC : dto.getSort(),
-                                    StringUtils.isEmpty(dto.getSortBy()) ? "name" : dto.getSortBy()
+                                    StringUtils.isEmpty(dto.getSortBy()) ? "id" : dto.getSortBy()
                             )
                     )
             );
@@ -248,8 +248,9 @@ public class UserServiceImpl implements UserService {
                     x.getUpdatedDate()
             )));
 
-            return new PageResponseDto(200, SUCCESS, results, users.getNumber(),
-                    users.getSize(), users.getTotalPages(), users.getTotalElements());
+            return new PageResponseDto(200, SUCCESS, results,
+                    dto.getDraw() == null ? 0 : dto.getDraw(),
+                    users.getTotalElements(), users.getTotalElements());
         } catch (Exception e) {
             log.error(e.getMessage());
             throw new ServiceException(e.getMessage());
