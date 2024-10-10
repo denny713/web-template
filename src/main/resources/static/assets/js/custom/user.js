@@ -53,7 +53,7 @@ function fillRolesModal(param) {
     );
 }
 
-function searchUsers() {
+function generateActions(response) {
     let upd = $("#edit-access").val();
     if (upd === "" || upd == null) {
         upd = "false";
@@ -64,73 +64,98 @@ function searchUsers() {
         del = "false";
     }
 
+    let active = response.active;
+    let modifyAction = '<button type="button" data-bs-toggle="modal" data-bs-target="#userDetail" class="btn btn-primary btn-icon btn-sm" ' +
+        'onClick="edit(\'' + response.id + '\',\'' + response.username + '\',\'' + response.name + '\',\'' + response.email + '\',\'' + response.roleDescription + '\')">' +
+        '                <i class="fas fa-edit"></i> Edit' +
+        '            </button>';
+    let deactiveAction = '<button type="button" onClick="deactive(\'' + response.id + '\',\'' + response.username + '\')" class="btn btn-secondary btn-icon btn-sm">' +
+        '                <i class="fas fa-ban"></i> Deactivate' +
+        '            </button>';
+    let reactiveAction = '<button type="button" onClick="reactive(\'' + response.id + '\',\'' + response.username + '\')" class="btn btn-success btn-icon btn-sm">' +
+        '                <i class="fas fa-redo"></i> Reactivate' +
+        '            </button>';
+    let updStatAction = active ? deactiveAction : reactiveAction;
+    let resetAction = '<button type="button" onClick="resetPass(\'' + response.id + '\',\'' + response.username + '\')" class="btn btn-warning btn-icon btn-sm">' +
+        '                <i class="fas fa-lock"></i> Reset Password' +
+        '            </button>';
+    let deleteAction = '<button type="button" onClick="deleteUser(\'' + response.id + '\',\'' + response.username + '\')" class="btn btn-danger btn-icon btn-sm">' +
+        '                <i class="fas fa-trash"></i> Delete' +
+        '            </button>';
+
+    let actions;
+    if (upd === "true" && del === "true") {
+        actions = modifyAction + " | " + updStatAction + " | " + resetAction + " | " + deleteAction;
+    } else if (upd === "true" && del === "false") {
+        actions = modifyAction + " | " + updStatAction + " | " + resetAction;
+    } else if (upd === "false" && del === "true") {
+        actions = deleteAction;
+    } else {
+        actions = "-";
+    }
+
+    return actions;
+}
+
+function searchUsers() {
     let role = $("#role option:selected").text();
     if (role === "All") {
         role = $("#role").val();
     }
 
-    let requestData = {};
-    requestData["username"] = $("#username").val();
-    requestData["name"] = $("#name").val();
-    requestData["email"] = $("#email").val();
-    requestData["role"] = role;
-    requestData["page"] = 0;
-    requestData["size"] = 10;
-    requestData["sort"] = "ASC";
-
-    let data = get("/api/user/list", requestData);
-    let xtable = $('#example').DataTable();
-    xtable.clear().draw();
-    let no = 0;
-    for (let x in data.data) {
-        no++;
-        let crtDate = data.data[x].createdDate;
-        crtDate = crtDate.replace(crtDate.substring(11, 23), '');
-
-        let active = data.data[x].active;
-        let status = active ? "Active" : "Non Active";
-
-        let modifyAction = '<button type="button" data-bs-toggle="modal" data-bs-target="#userDetail"  class="btn btn-primary btn-icon" ' +
-            'onClick="edit(\'' + data.data[x].id + '\',\'' + data.data[x].username + '\',\'' + data.data[x].name + '\',\'' + data.data[x].email + '\',\'' + data.data[x].roleDescription + '\')">' +
-            '                <i class="fas fa-edit"></i> Edit' +
-            '            </button>';
-        let deactiveAction = '<button type="button" onClick="deactive(\'' + data.data[x].id + '\',\'' + data.data[x].username + '\')" class="btn btn-secondary btn-icon">' +
-            '                <i class="fas fa-ban"></i> Deactivate' +
-            '            </button>';
-        let reactiveAction = '<button type="button" onClick="reactive(\'' + data.data[x].id + '\',\'' + data.data[x].username + '\')" class="btn btn-success btn-icon">' +
-            '                <i class="fas fa-redo"></i> Reactivate' +
-            '            </button>';
-        let updStatAction = active ? deactiveAction : reactiveAction;
-        let resetAction = '<button type="button" onClick="resetPass(\'' + data.data[x].id + '\',\'' + data.data[x].username + '\')" class="btn btn-warning btn-icon">' +
-            '                <i class="fas fa-lock"></i> Reset Password' +
-            '            </button>';
-        let deleteAction = '<button type="button" onClick="deleteUser(\'' + data.data[x].id + '\',\'' + data.data[x].username + '\')" class="btn btn-danger btn-icon">' +
-            '                <i class="fas fa-trash"></i> Delete' +
-            '            </button>';
-
-        let actions = null;
-        if (upd === "true" && del === "true") {
-            actions = modifyAction + " | " + updStatAction + " | " + resetAction + " | " + deleteAction;
-        } else if (upd === "true" && del === "false") {
-            actions = modifyAction + " | " + updStatAction + " | " + resetAction;
-        } else if (upd === "false" && del === "true") {
-            actions = deleteAction;
-        } else {
-            actions = "-";
-        }
-
-        xtable.row.add([
-            no,
-            data.data[x].username,
-            data.data[x].name,
-            data.data[x].email,
-            data.data[x].role,
-            status,
-            crtDate.substring(0, 10),
-            actions
-        ]);
-    }
-    xtable.draw();
+    $('#example').DataTable({
+        "destroy": true,
+        "serverSide": true,
+        "processing": true,
+        "ajax": {
+            "url": "/api/user/list",
+            "type": "POST",
+            "contentType": "application/json",
+            "data": function (d) {
+                return JSON.stringify({
+                    "draw": d.draw,
+                    "username": $("#username").val(),
+                    "name": $("#name").val(),
+                    "email": $("#email").val(),
+                    "role": role,
+                    "active": true,
+                    "page": Math.ceil(d.start / d.length),
+                    "size": d.length,
+                    "sort": "ASC"
+                });
+            },
+            "dataSrc": function (json) {
+                return json.data;
+            }
+        },
+        "columns": [
+            {"data": "username"},
+            {"data": "name"},
+            {"data": "email"},
+            {"data": "role"},
+            {
+                "data": "active", "render": function (data) {
+                    return data ? "Active" : "Non Active";
+                }
+            },
+            {
+                "data": "createdDate", "render": function (data) {
+                    return data.substring(0, 10);
+                }
+            },
+            {
+                "data": null, "render": function (data) {
+                    return generateActions(data);
+                }
+            }
+        ],
+        "pageLength": 10,
+        "paging": true,
+        "searching": false,
+        "ordering": true,
+        "info": true,
+        "autoWidth": false
+    });
 }
 
 function resetPass(id, username) {
@@ -182,12 +207,12 @@ function generateRequest(id) {
 function fillProfile() {
     let data = get("/api/user/me");
     let status = data.data.active;
-    $("#username-profile").val(data.data.username);
-    $("#name-profile").val(data.data.name);
-    $("#email-profile").val(data.data.email);
-    $("#role-profile").val(data.data.role);
-    $("#desc-profile").val(data.data.roleDescription);
-    $("#stat-profile").val(status === true ? "Active" : "Non Active");
+    document.getElementById("username-profile").innerHTML = data.data.username;
+    document.getElementById("name-profile").innerHTML = data.data.name;
+    document.getElementById("email-profile").innerHTML = data.data.email;
+    document.getElementById("role-profile").innerHTML = data.data.role;
+    document.getElementById("desc-profile").innerHTML = data.data.roleDescription;
+    document.getElementById("stat-profile").innerHTML = (status === true ? "Active" : "Non Active");
 }
 
 function setCreatePermission() {

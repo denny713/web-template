@@ -8,6 +8,7 @@ import org.springframework.data.domain.Sort;
 @Setter
 public class PageRequestDto {
 
+    protected Integer draw;
     protected Integer page;
     protected Integer size;
     protected String sortBy;

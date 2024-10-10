@@ -1,9 +1,7 @@
 package com.ndp.model.entity;
 
 import com.ndp.model.entity.base.BaseEntity;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 
 @EqualsAndHashCode(callSuper = true)
@@ -15,6 +13,11 @@ import lombok.*;
 @NoArgsConstructor
 @Table(name = "menus")
 public class Menu extends BaseEntity {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="id")
+    private long id;
 
     @Column(name = "description")
     private String description;

@@ -8,6 +8,10 @@ function profile() {
     redirect("/profile");
 }
 
+function changePass() {
+    redirect("/change-pass");
+}
+
 function fillName() {
     let name = getValueFromToken(getCookie('access-token'), "name");
     if (name === "" || name == null) {

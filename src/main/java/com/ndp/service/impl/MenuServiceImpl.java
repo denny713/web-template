@@ -28,7 +28,7 @@ public class MenuServiceImpl implements MenuService {
         menus.forEach(x -> {
             if (!x.isDeleted()) {
                 Map<String, String> menuOption = new HashMap<>();
-                menuOption.put("key", x.getId().toString());
+                menuOption.put("key", String.valueOf(x.getId()));
                 menuOption.put("value", x.getName());
                 menuOptions.add(menuOption);
             }
@@ -46,7 +46,7 @@ public class MenuServiceImpl implements MenuService {
         menus.forEach(x -> {
             if (!x.isDeleted()) {
                 Map<String, String> menuOption = new HashMap<>();
-                menuOption.put("key", x.getId().toString());
+                menuOption.put("key", String.valueOf(x.getId()));
                 menuOption.put("value", x.getUrl());
                 menuOptions.add(menuOption);
             }

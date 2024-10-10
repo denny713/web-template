@@ -161,7 +161,7 @@ function appendOptions(select, data, param) {
     let initOpt = document.createElement("option");
     if (data.data.length > 0) {
         initOpt.setAttribute("value", "");
-        initOpt.innerHTML = "All";
+        initOpt.innerHTML = "";
         select.appendChild(initOpt);
     }
     for (let x in data.data) {

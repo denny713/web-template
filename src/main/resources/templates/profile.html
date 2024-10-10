@@ -49,64 +49,62 @@
                     <div class="row">
                         <div class="row form-group">
                             <div class="col-sm-2">
-                                <label class="display-label" for="username-profile">Username</label>
+                                <label class="display-label">Username</label>
                             </div>
                             <div class="col-sm-4">
-                                <input id="username-profile" name="username-profile" class="form-control"
-                                       disabled="disabled"/>
+                                <label class="display-label" id="username-profile"></label>
                             </div>
                         </div>
                         <div class="row form-group">
                             <div class="col-sm-2">
-                                <label class="display-label" for="name-profile">Name</label>
+                                <label class="display-label">Name</label>
                             </div>
                             <div class="col-sm-4">
-                                <input id="name-profile" name="name-profile" class="form-control" disabled="disabled"/>
+                                <label class="display-label" id="name-profile"></label>
                             </div>
                         </div>
                         <div class="row form-group">
                             <div class="col-sm-2">
-                                <label class="display-label" for="email-profile">Email</label>
+                                <label class="display-label">Email</label>
                             </div>
                             <div class="col-sm-4">
-                                <input id="email-profile" name="email-profile" class="form-control"
-                                       disabled="disabled"/>
+                                <label class="display-label" id="email-profile"></label>
                             </div>
                         </div>
                         <div class="row form-group">
                             <div class="col-sm-2">
-                                <label class="display-label" for="role-profile">Role</label>
+                                <label class="display-label">Role</label>
                             </div>
                             <div class="col-sm-4">
-                                <input id="role-profile" name="role-profile" class="form-control" disabled="disabled"/>
+                                <label class="display-label" id="role-profile"></label>
                             </div>
                         </div>
                         <div class="row form-group">
                             <div class="col-sm-2">
-                                <label class="display-label" for="desc-profile">Role Description</label>
+                                <label class="display-label">Role Description</label>
                             </div>
                             <div class="col-sm-4">
-                                <input id="desc-profile" name="desc-profile" class="form-control" disabled="disabled"/>
+                                <label class="display-label" id="desc-profile"></label>
                             </div>
                         </div>
                         <div class="row form-group">
                             <div class="col-sm-2">
-                                <label class="display-label" for="stat-profile">Status</label>
+                                <label class="display-label">Status</label>
                             </div>
                             <div class="col-sm-4">
-                                <input id="stat-profile" name="stat-profile" class="form-control" disabled="disabled"/>
+                                <label class="display-label" id="stat-profile"></label>
                             </div>
                         </div>
-                    </div>
-                    <br>
-                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                        <button class="btn btn-danger btn-sm btn-fix" type="button" onclick="changePassExecute()"
-                                data-bs-toggle="modal" data-bs-target="#passDetail">
-                            <i class="fas fa-key"></i>
-                            Change Password
-                        </button>
                     </div>
                 </fieldset>
+                <br>
+                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                    <button class="btn btn-danger btn-sm btn-fix" type="button" onclick="changePassExecute()"
+                            data-bs-toggle="modal" data-bs-target="#passDetail">
+                        <i class="fas fa-key"></i>
+                        Change Password
+                    </button>
+                </div>
             </div>
         </div>
         <div th:replace="~{fragments/change-pass-dialog}"></div>

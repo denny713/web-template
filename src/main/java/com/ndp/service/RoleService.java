@@ -7,14 +7,12 @@ import com.ndp.model.dto.response.PageResponseDto;
 import com.ndp.model.dto.response.ResponseDto;
 import jakarta.transaction.Transactional;
 
-import java.util.UUID;
-
 @Transactional
 public interface RoleService {
 
     PageResponseDto searchRole(SearchRoleDto dto);
 
-    ResponseDto roleDetail(UUID roleId);
+    ResponseDto roleDetail(long roleId);
 
     ResponseDto registerRole(RegisterRoleDto dto);
 

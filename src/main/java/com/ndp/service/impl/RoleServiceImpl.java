@@ -55,7 +55,7 @@ public class RoleServiceImpl implements RoleService {
                             dto.getSize() == null || dto.getSize() <= 0 ? 1 : dto.getSize(),
                             Sort.by(
                                     dto.getSort() == null ? Sort.Direction.ASC : dto.getSort(),
-                                    StringUtils.isEmpty(dto.getSortBy()) ? "name" : dto.getSortBy()
+                                    StringUtils.isEmpty(dto.getSortBy()) ? "id" : dto.getSortBy()
                             )
                     )
             );
@@ -85,8 +85,9 @@ public class RoleServiceImpl implements RoleService {
                 ));
             });
 
-            return new PageResponseDto(200, SUCCESS, results, roles.getNumber(),
-                    roles.getSize(), roles.getTotalPages(), roles.getTotalElements());
+            return new PageResponseDto(200, SUCCESS, results,
+                    dto.getDraw() == null ? 0 : dto.getDraw(),
+                    roles.getTotalElements(), roles.getTotalElements());
         } catch (Exception e) {
             log.error(e.getMessage());
             throw new ServiceException(e.getMessage());
@@ -95,8 +96,8 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     @Transactional
-    public ResponseDto roleDetail(UUID roleId) {
-        if (roleId == null) {
+    public ResponseDto roleDetail(long roleId) {
+        if (roleId == 0) {
             throw new BadRequestException("Role ID cannot be null or empty");
         }
 
@@ -144,10 +145,9 @@ public class RoleServiceImpl implements RoleService {
 
         List<RoleMapping> roleMappings = new ArrayList<>();
         List<RoleMappingDto> dtos = dto.getRoleMapping();
-        List<Menu> menus = menuRepository.findByIdIn(dtos.stream()
-                .map(RoleMappingDto::getMenuId).toList());
+        List<Menu> menus = menuRepository.findByIdIn(dtos.stream().map(RoleMappingDto::getMenuId).toList());
         dtos.forEach(x -> {
-            Menu menu = menus.stream().filter(menuDetail -> menuDetail.getId().equals(x.getMenuId())).findFirst().orElse(null);
+            Menu menu = menus.stream().filter(menuDetail -> menuDetail.getId() == x.getMenuId()).findFirst().orElse(null);
             if (menu == null) {
                 throw new NotFoundException("Menu detail not found");
             }
@@ -175,7 +175,7 @@ public class RoleServiceImpl implements RoleService {
         roles.forEach(x -> {
             if (!x.isDeleted()) {
                 Map<String, String> roleOption = new HashMap<>();
-                roleOption.put("key", x.getId().toString());
+                roleOption.put("key", String.valueOf(x.getId()));
                 roleOption.put("value", x.getDescription());
                 roleOptions.add(roleOption);
             }
@@ -188,7 +188,7 @@ public class RoleServiceImpl implements RoleService {
     @Transactional
     public ResponseDto updateRole(UpdateRoleDto dto) {
         dto.setDescription(StringUtils.isEmpty(dto.getDescription()) ? "-" : dto.getDescription());
-        if (dto.getRoleId() == null) {
+        if (dto.getRoleId() == 0) {
             throw new BadRequestException("Role ID cannot be null or empty");
         }
 
@@ -210,7 +210,7 @@ public class RoleServiceImpl implements RoleService {
         List<Menu> menus = menuRepository.findByIdIn(dtos.stream()
                 .map(RoleMappingDto::getMenuId).toList());
         dtos.forEach(x -> {
-            Menu menu = menus.stream().filter(menuDetail -> menuDetail.getId().equals(x.getMenuId())).findFirst().orElse(null);
+            Menu menu = menus.stream().filter(menuDetail -> menuDetail.getId() == x.getMenuId()).findFirst().orElse(null);
             if (menu == null) {
                 throw new NotFoundException("Menu detail not found");
             }
@@ -233,7 +233,7 @@ public class RoleServiceImpl implements RoleService {
     @Override
     @Transactional
     public ResponseDto deleteRole(UpdateRoleDto dto) {
-        if (dto.getRoleId() == null) {
+        if (dto.getRoleId() == 0) {
             throw new BadRequestException("Role ID cannot be null or empty");
         }
 
@@ -247,7 +247,7 @@ public class RoleServiceImpl implements RoleService {
     @Override
     @Transactional
     public ResponseDto updateRoleStatus(UpdateRoleDto dto, boolean active) {
-        if (dto.getRoleId() == null) {
+        if (dto.getRoleId() == 0) {
             throw new BadRequestException("Role ID cannot be null or empty");
         }
 
@@ -258,7 +258,7 @@ public class RoleServiceImpl implements RoleService {
         return new ResponseDto(200, SUCCESS, null);
     }
 
-    private Role getById(UUID id) {
+    private Role getById(long id) {
         Optional<Role> role = roleRepository.findById(id);
         if (role.isEmpty()) {
             throw new NotFoundException("Role detail not found");

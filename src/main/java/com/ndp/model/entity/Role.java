@@ -16,6 +16,11 @@ import java.util.List;
 @Table(name = "roles")
 public class Role extends BaseEntity {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="id")
+    private long id;
+
     @Column(name = "description")
     private String description;
 

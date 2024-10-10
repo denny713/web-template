@@ -8,18 +8,18 @@ databaseChangeLog:
             columns:
               - column:
                   name: id
-                  type: UUID
+                  type: SERIAL
                   constraints:
                     primaryKey: true
                     nullable: false
               - column:
                   name: role_id
-                  type: UUID
+                  type: INT4
                   constraints:
                     nullable: false
               - column:
                   name: menu_id
-                  type: UUID
+                  type: INT4
                   constraints:
                     nullable: false
               - column:

@@ -16,8 +16,7 @@ public class PageResponseDto {
     private int code;
     private String status;
     private Object data;
-    private int page;
-    private int size;
-    private int totalPage;
-    private long totalElements;
+    private int draw;
+    private long recordsTotal;
+    private long recordsFiltered;
 }

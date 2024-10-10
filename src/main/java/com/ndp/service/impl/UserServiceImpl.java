@@ -86,7 +86,7 @@ public class UserServiceImpl implements UserService {
             throw new BadRequestException("Invalid email format");
         }
 
-        if (dto.getRoleId() == null) {
+        if (dto.getRoleId() == 0) {
             throw new BadRequestException("Role ID cannot be null or empty");
         }
 
@@ -113,7 +113,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public ResponseDto updateUser(UpdateUserDto dto) {
-        if (dto.getUserId() == null) {
+        if (dto.getUserId() == 0) {
             throw new BadRequestException("User ID cannot be null or empty");
         }
 
@@ -129,7 +129,7 @@ public class UserServiceImpl implements UserService {
             throw new BadRequestException("Invalid email format");
         }
 
-        if (dto.getRoleId() == null) {
+        if (dto.getRoleId() == 0) {
             throw new BadRequestException("Role ID cannot be null or empty");
         }
 
@@ -146,7 +146,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public ResponseDto resetPass(UpdatePassUserDto dto) {
-        if (dto.getUserId() == null) {
+        if (dto.getUserId() == 0) {
             throw new BadRequestException("User ID cannot be null or empty");
         }
 
@@ -161,7 +161,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public ResponseDto updatePass(UpdatePassUserDto dto) {
-        if (dto.getUserId() == null) {
+        if (dto.getUserId() == 0) {
             throw new BadRequestException("User ID cannot be null or empty");
         }
 
@@ -192,7 +192,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public ResponseDto deleteUser(UpdatePassUserDto dto) {
-        if (dto.getUserId() == null) {
+        if (dto.getUserId() == 0) {
             throw new BadRequestException("User ID cannot be null or empty");
         }
 
@@ -206,7 +206,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public ResponseDto statusUpdate(UpdatePassUserDto dto, boolean isActive) {
-        if (dto.getUserId() == null) {
+        if (dto.getUserId() == 0) {
             throw new BadRequestException("User ID cannot be null or empty");
         }
 
@@ -231,7 +231,7 @@ public class UserServiceImpl implements UserService {
                             dto.getSize() == null || dto.getSize() <= 0 ? 1 : dto.getSize(),
                             Sort.by(
                                     dto.getSort() == null ? Sort.Direction.ASC : dto.getSort(),
-                                    StringUtils.isEmpty(dto.getSortBy()) ? "name" : dto.getSortBy()
+                                    StringUtils.isEmpty(dto.getSortBy()) ? "id" : dto.getSortBy()
                             )
                     )
             );
@@ -248,15 +248,16 @@ public class UserServiceImpl implements UserService {
                     x.getUpdatedDate()
             )));
 
-            return new PageResponseDto(200, SUCCESS, results, users.getNumber(),
-                    users.getSize(), users.getTotalPages(), users.getTotalElements());
+            return new PageResponseDto(200, SUCCESS, results,
+                    dto.getDraw() == null ? 0 : dto.getDraw(),
+                    users.getTotalElements(), users.getTotalElements());
         } catch (Exception e) {
             log.error(e.getMessage());
             throw new ServiceException(e.getMessage());
         }
     }
 
-    private User getById(UUID id) {
+    private User getById(long id) {
         Optional<User> user = userRepository.findById(id);
         if (user.isEmpty()) {
             throw new NotFoundException("User detail not found");
