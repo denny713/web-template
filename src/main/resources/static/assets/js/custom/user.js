@@ -90,21 +90,21 @@ function searchUsers() {
         let active = data.data[x].active;
         let status = active ? "Active" : "Non Active";
 
-        let modifyAction = '<button type="button" data-bs-toggle="modal" data-bs-target="#userDetail"  class="btn btn-primary btn-icon" ' +
+        let modifyAction = '<button type="button" data-bs-toggle="modal" data-bs-target="#userDetail"  class="btn btn-primary btn-icon btn-sm" ' +
             'onClick="edit(\'' + data.data[x].id + '\',\'' + data.data[x].username + '\',\'' + data.data[x].name + '\',\'' + data.data[x].email + '\',\'' + data.data[x].roleDescription + '\')">' +
             '                <i class="fas fa-edit"></i> Edit' +
             '            </button>';
-        let deactiveAction = '<button type="button" onClick="deactive(\'' + data.data[x].id + '\',\'' + data.data[x].username + '\')" class="btn btn-secondary btn-icon">' +
+        let deactiveAction = '<button type="button" onClick="deactive(\'' + data.data[x].id + '\',\'' + data.data[x].username + '\')" class="btn btn-secondary btn-icon btn-sm">' +
             '                <i class="fas fa-ban"></i> Deactivate' +
             '            </button>';
-        let reactiveAction = '<button type="button" onClick="reactive(\'' + data.data[x].id + '\',\'' + data.data[x].username + '\')" class="btn btn-success btn-icon">' +
+        let reactiveAction = '<button type="button" onClick="reactive(\'' + data.data[x].id + '\',\'' + data.data[x].username + '\')" class="btn btn-success btn-icon btn-sm">' +
             '                <i class="fas fa-redo"></i> Reactivate' +
             '            </button>';
         let updStatAction = active ? deactiveAction : reactiveAction;
-        let resetAction = '<button type="button" onClick="resetPass(\'' + data.data[x].id + '\',\'' + data.data[x].username + '\')" class="btn btn-warning btn-icon">' +
+        let resetAction = '<button type="button" onClick="resetPass(\'' + data.data[x].id + '\',\'' + data.data[x].username + '\')" class="btn btn-warning btn-icon btn-sm">' +
             '                <i class="fas fa-lock"></i> Reset Password' +
             '            </button>';
-        let deleteAction = '<button type="button" onClick="deleteUser(\'' + data.data[x].id + '\',\'' + data.data[x].username + '\')" class="btn btn-danger btn-icon">' +
+        let deleteAction = '<button type="button" onClick="deleteUser(\'' + data.data[x].id + '\',\'' + data.data[x].username + '\')" class="btn btn-danger btn-icon btn-sm">' +
             '                <i class="fas fa-trash"></i> Delete' +
             '            </button>';
 

@@ -28,17 +28,17 @@ function searchRole() {
         let active = data.data[x].active;
         let status = active ? "Active" : "Non Active";
 
-        let modifyAction = '<button type="button" data-bs-toggle="modal" data-bs-target="#roleDetail"  class="btn btn-primary btn-icon" ' +
+        let modifyAction = '<button type="button" data-bs-toggle="modal" data-bs-target="#roleDetail" class="btn btn-primary btn-icon btn-sm" ' +
             'onClick="editRole(\'' + data.data[x].id + '\')">' +
             '                <i class="fas fa-edit"></i> Edit' +
             '            </button>';
-        let deleteAction = '<button type="button" onClick="deleteRole(\'' + data.data[x].id + '\',\'' + data.data[x].name + '\')" class="btn btn-danger btn-icon">' +
+        let deleteAction = '<button type="button" onClick="deleteRole(\'' + data.data[x].id + '\',\'' + data.data[x].name + '\')" class="btn btn-danger btn-icon btn-sm">' +
             '                <i class="fas fa-trash"></i> Delete' +
             '            </button>';
-        let deactiveAction = '<button type="button" onClick="roleDeactive(\'' + data.data[x].id + '\',\'' + data.data[x].name + '\')" class="btn btn-secondary btn-icon">' +
+        let deactiveAction = '<button type="button" onClick="roleDeactive(\'' + data.data[x].id + '\',\'' + data.data[x].name + '\')" class="btn btn-secondary btn-icon btn-sm">' +
             '                <i class="fas fa-ban"></i> Deactivate' +
             '            </button>';
-        let reactiveAction = '<button type="button" onClick="roleReactive(\'' + data.data[x].id + '\',\'' + data.data[x].name + '\')" class="btn btn-success btn-icon">' +
+        let reactiveAction = '<button type="button" onClick="roleReactive(\'' + data.data[x].id + '\',\'' + data.data[x].name + '\')" class="btn btn-success btn-icon btn-sm">' +
             '                <i class="fas fa-redo"></i> Reactivate' +
             '            </button>';
         let updStatAction = active ? deactiveAction : reactiveAction;

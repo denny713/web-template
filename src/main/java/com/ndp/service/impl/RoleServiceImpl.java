@@ -144,8 +144,7 @@ public class RoleServiceImpl implements RoleService {
 
         List<RoleMapping> roleMappings = new ArrayList<>();
         List<RoleMappingDto> dtos = dto.getRoleMapping();
-        List<Menu> menus = menuRepository.findByIdIn(dtos.stream()
-                .map(RoleMappingDto::getMenuId).toList());
+        List<Menu> menus = menuRepository.findByIdIn(dtos.stream() .map(RoleMappingDto::getMenuId).toList());
         dtos.forEach(x -> {
             Menu menu = menus.stream().filter(menuDetail -> menuDetail.getId() == x.getMenuId()).findFirst().orElse(null);
             if (menu == null) {
