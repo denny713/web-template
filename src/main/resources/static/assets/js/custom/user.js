@@ -179,12 +179,12 @@ function generateRequest(id) {
 function fillProfile() {
     let data = get("/api/user/me");
     let status = data.data.active;
-    $("#username-profile").val(data.data.username);
-    $("#name-profile").val(data.data.name);
-    $("#email-profile").val(data.data.email);
-    $("#role-profile").val(data.data.role);
-    $("#desc-profile").val(data.data.roleDescription);
-    $("#stat-profile").val(status === true ? "Active" : "Non Active");
+    document.getElementById("username-profile").innerHTML = data.data.username;
+    document.getElementById("name-profile").innerHTML = data.data.name;
+    document.getElementById("email-profile").innerHTML = data.data.email;
+    document.getElementById("role-profile").innerHTML = data.data.role;
+    document.getElementById("desc-profile").innerHTML = data.data.roleDescription;
+    document.getElementById("stat-profile").innerHTML = (status === true ? "Active" : "Non Active");
 }
 
 function setCreatePermission() {

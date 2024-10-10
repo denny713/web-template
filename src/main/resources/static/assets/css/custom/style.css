@@ -334,3 +334,21 @@ table.dataTable thead tr {
 table.dataTable tbody td {
     background-color: white;
 }
+
+div.dt-length {
+    display: none;
+}
+
+div.dt-container {
+    color: #e0e0e0 !important;
+}
+
+div.dt-container .dt-info {
+    font-weight: bold;
+}
+
+div.dt-container .dt-paging .dt-paging-button.current {
+    color: #e0e0e0 !important;
+    border-radius: 6px;
+    border: 2px solid #e0e0e0 !important;
+}
