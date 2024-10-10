@@ -19,9 +19,7 @@ function searchRole() {
     let data = get("/api/role/list", requestData);
     let xtable = $('#example').DataTable();
     xtable.clear().draw();
-    let no = 0;
     for (let x in data.data) {
-        no++;
         let crtDate = data.data[x].createdDate;
         crtDate = crtDate.replace(crtDate.substring(11, 23), '');
 
@@ -55,7 +53,6 @@ function searchRole() {
         }
 
         xtable.row.add([
-            no,
             data.data[x].name,
             data.data[x].description,
             status,

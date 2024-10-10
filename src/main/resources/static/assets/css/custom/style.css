@@ -138,45 +138,6 @@ legend {
     background-color: #f80606;
 }
 
-table.dataTable thead tr {
-    background-color: #f80606;
-}
-
-.dataTables_scrollBody > table > thead > tr {
-    visibility: collapse;
-    height: 0 !important;
-}
-
-.dataTables_wrapper .dataTables_length,
-.dataTables_wrapper .dataTables_filter,
-.dataTables_wrapper .dataTables_info,
-.dataTables_wrapper .dataTables_paginate {
-    font-weight: bold;
-    color: #e0e0e0 !important;
-}
-
-.dataTables_wrapper .dataTables_paginate .paginate_button {
-    color: #e0e0e0 !important;
-    font-weight: bold !important;
-}
-
-.dataTables_wrapper .dataTables_paginate .paginate_button:hover {
-    background-color: #e0e0e0 !important;
-    color: #fff !important;
-}
-
-.dataTables_length select {
-    background-color: #e0e0e0 !important;
-    color: #000 !important;
-    border: 1px solid #ddd !important;
-}
-
-.dataTables_filter input {
-    background-color: #e0e0e0 !important;
-    color: #000 !important;
-    border: 1px solid #ddd !important;
-}
-
 .login-container {
     min-height: 100vh;
     display: flex;
@@ -364,4 +325,12 @@ table.dataTable thead tr {
     .error .error-err h1 {
         font-size: 112px;
     }
+}
+
+table.dataTable thead tr {
+    background-color: #f80606;
+}
+
+table.dataTable tbody td {
+    background-color: white;
 }
