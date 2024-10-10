@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.Date;
-import java.util.UUID;
 
 @Getter
 @Setter
@@ -14,7 +13,7 @@ import java.util.UUID;
 @NoArgsConstructor
 public class UserResponseDto {
 
-    private UUID id;
+    private long id;
     private String username;
     private String name;
     private String email;

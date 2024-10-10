@@ -1,12 +1,10 @@
 package com.ndp.model.entity;
 
-import com.ndp.model.entity.base.IdEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
 
-@EqualsAndHashCode(callSuper = true)
 @Getter
 @Setter
 @Entity
@@ -14,7 +12,12 @@ import org.hibernate.annotations.NotFoundAction;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "role_mapping")
-public class RoleMapping extends IdEntity {
+public class RoleMapping {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="id")
+    private long id;
 
     @ManyToOne
     @NotFound(action = NotFoundAction.IGNORE)

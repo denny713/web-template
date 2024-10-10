@@ -5,15 +5,13 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.UUID;
-
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class RoleMappingResponseDto {
 
-    private UUID menuId;
+    private long menuId;
     private String menuName;
     private String menuDesc;
     private String menuUrl;

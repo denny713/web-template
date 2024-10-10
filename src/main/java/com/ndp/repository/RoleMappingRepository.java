@@ -6,10 +6,9 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.UUID;
 
 @Repository
-public interface RoleMappingRepository extends JpaRepository<RoleMapping, UUID>, JpaSpecificationExecutor<RoleMapping> {
+public interface RoleMappingRepository extends JpaRepository<RoleMapping, Long>, JpaSpecificationExecutor<RoleMapping> {
 
-    List<RoleMapping> findByRoleId(UUID roleId);
+    List<RoleMapping> findByRoleId(Long roleId);
 }

@@ -13,7 +13,7 @@ import java.util.Date;
 @Getter
 @Setter
 @MappedSuperclass
-public abstract class BaseEntity extends IdEntity implements Serializable {
+public abstract class BaseEntity implements Serializable {
 
     @Column(name = "name")
     protected String name;

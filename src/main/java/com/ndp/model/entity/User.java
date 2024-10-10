@@ -21,6 +21,11 @@ import java.util.Collection;
 @Table(name = "users")
 public class User extends BaseEntity implements UserDetails {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private long id;
+
     @Column(name = "username")
     private String username;
 
